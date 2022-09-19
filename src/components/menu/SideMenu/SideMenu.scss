@@ -1,0 +1,53 @@
+.side_menu {
+    .ui.menu {
+        width: 250px !important;
+        overflow: hidden;
+        padding-top: 6em;
+        z-index: 99 !important;
+
+        i.icon {
+            float: initial !important;
+            margin: 0 !important;
+            margin-right: 10px !important;
+        }
+
+        .item {
+            max-height: 50px !important;
+        }
+    }
+
+
+    .content {
+        position: absolute;
+        right: 0;
+        top: 50px;
+        padding: 50px;
+        width: calc(100% - 250px);
+        height: 100vh;
+        background-color: #CECFc9;
+
+        .ui.card {
+
+            .user_header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                align-items: center;
+            }
+            .user_home {
+                display: flex;
+                padding: 10px;
+                align-items: center;
+                margin-bottom: 20px;
+
+                &__info {
+                    padding-left: 40px;
+                }
+            }
+
+            .parents_registered {
+                
+            }
+        }
+    }
+}

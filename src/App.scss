@@ -1,0 +1,22 @@
+$primary_color: #276c90;
+$darkprimary_color: #0a3143;
+$lightprimary_color: #00B5aD;
+$secondary_color: #CECFc9;
+$light_color: #EFEFEF;
+
+.button {
+    background-color: $darkprimary_color !important;
+    margin-top: 20px !important;
+
+    &:hover {
+        background-color: $lightprimary_color !important; 
+    }
+}
+
+.ui.card {
+    padding: 40px !important;
+}
+.btn {
+    background-color: #CECFc9 !important;
+    font-size: 15px !important;
+}

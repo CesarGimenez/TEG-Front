@@ -1,0 +1,54 @@
+.layout {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.pharmacy__card {
+    width: 400px !important;
+    max-height: 300px !important;
+    margin-right: 20px !important;
+}
+
+.pharmacy__card2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .pharmacy_basic {
+        margin-right: 10px;
+    }
+
+    .pharmacy_info{
+        margin-top: 20px;
+    }
+}
+
+.layout_menu_pharmacy {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map_container {
+    height: 85vh; 
+    width: 100%;
+}
+
+.marker_container {
+    transition: ease-in 0.5s;
+}
+
+.marker_icon {
+    transform: scale(2.2);
+    color: rgb(30, 30, 114);
+    transition: ease-in 0.3s;
+}
+
+.marker_label {
+    
+}
+
+.marker_container:hover {
+    transform: scale(1.2) translateY(-5px);
+}

@@ -1,0 +1,18 @@
+.home {
+    width: 100%;
+    display: grid;
+    grid: 55px / 1fr;
+    grid-template-areas: 
+        "menu"
+        "home_content"
+    ;
+    min-height: 100vh;
+
+    &_menu {
+        grid-area: menu;
+    }
+
+    &_content {
+        grid-area: content;
+    }
+}
