@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { getPharmaciesApi } from "../api/pharmacy";
-import "./useAuth";
+import { getPharmaciesApi, getPharmaciesByMedicinesApi } from "../api/pharmacy";
 import { useAuth } from "./useAuth";
 
 export const usePharmacy = () => {
@@ -14,9 +13,21 @@ export const usePharmacy = () => {
     try {
       setLoading(true);
       const response = await getPharmaciesApi(auth?.token);
-      setLoading(false);
       const { data } = response;
       setPharmacies(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  const getPharmaciesByMedicines = async (datas) => {
+    try {
+      setLoading(true);
+      const { data } = await getPharmaciesByMedicinesApi(auth?.token, datas);
+      setPharmacies(data);
+      setLoading(false);
     } catch (error) {
       setLoading(false);
       setError(error);
@@ -28,5 +39,6 @@ export const usePharmacy = () => {
     error,
     pharmacies,
     getPharmacies,
+    getPharmaciesByMedicines,
   };
 };

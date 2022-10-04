@@ -33,6 +33,10 @@
 .map_container {
     height: 85vh; 
     width: 100%;
+
+    &_modal {
+        height: 50vh;
+    }
 }
 
 .marker_container {
@@ -51,4 +55,9 @@
 
 .marker_container:hover {
     transform: scale(1.2) translateY(-5px);
+}
+
+.form_filter {
+    display: flex;
+    align-items: center;
 }

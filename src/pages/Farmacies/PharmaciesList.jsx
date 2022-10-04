@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Header, Image } from "semantic-ui-react";
 
-export const PharmaciesList = ({ pharmacies }) => {
+export const PharmaciesList = ({ pharmacies, showLocationPharmacy }) => {
   return (
     <div className="layout">
       {pharmacies?.map((pharmacy) => {
@@ -21,7 +21,12 @@ export const PharmaciesList = ({ pharmacies }) => {
                 <p as="h4">Horario de atencion: {pharmacy?.hours}</p>
               </div>
             </div>
-            <Button className="btn">Ver ubicacion</Button>
+            <Button
+              className="btn"
+              onClick={() => showLocationPharmacy(pharmacy)}
+            >
+              Ver ubicacion
+            </Button>
           </Card>
         );
       })}
