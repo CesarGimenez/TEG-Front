@@ -80,9 +80,9 @@ export const Farmacies = () => {
             lng={location?.lng}
             className="marker_container"
           >
-            <Label className="marker_label" color="blue">
+            {/* <Label className="marker_label" color="blue">
               {data?.name}
-            </Label>
+            </Label> */}
             <Icon className="marker_icon" name="map marker alternate" />
           </div>
         </GoogleMapReact>
@@ -109,10 +109,7 @@ export const Farmacies = () => {
                 options={formatMedicines(medicines)}
                 onChange={setMedicinesListOnChange}
               />
-              <Button
-                className="btn"
-                onClick={handleSearchPharmaciesByMedicines}
-              >
+              <Button onClick={handleSearchPharmaciesByMedicines}>
                 Consultar
               </Button>
             </div>

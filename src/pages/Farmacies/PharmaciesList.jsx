@@ -21,10 +21,7 @@ export const PharmaciesList = ({ pharmacies, showLocationPharmacy }) => {
                 <p as="h4">Horario de atencion: {pharmacy?.hours}</p>
               </div>
             </div>
-            <Button
-              className="btn"
-              onClick={() => showLocationPharmacy(pharmacy)}
-            >
+            <Button onClick={() => showLocationPharmacy(pharmacy)}>
               Ver ubicacion
             </Button>
           </Card>
