@@ -22,7 +22,6 @@ export const LoginForm = ({ handleRegister }) => {
     onSubmit: async (formValue) => {
       try {
         const res = await LoginAPI(formValue);
-        console.log(res);
         const { user } = res;
         if (res?.statusCode === 403) {
           toast.error("Credenciales invalidas");
@@ -45,6 +44,7 @@ export const LoginForm = ({ handleRegister }) => {
           <Segment stacked>
             <Form.Input
               fluid
+              autoComplete="off"
               icon="user"
               iconPosition="left"
               placeholder="Email"
