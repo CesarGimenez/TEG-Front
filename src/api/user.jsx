@@ -69,3 +69,22 @@ export const getUsersDoctorsApi = async (token) => {
     throw error;
   }
 };
+
+export const createUserApi = async (token, data) => {
+  try {
+    const url = `${BASE_API}/user`;
+    const params = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};

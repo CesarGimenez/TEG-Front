@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import { AuthProvider } from "./context/authContext";
 import { Navigation } from "./routes/Navigation";
+import "animate.css";
 
 function App() {
   return (

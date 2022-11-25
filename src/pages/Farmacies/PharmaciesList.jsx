@@ -13,6 +13,7 @@ export const PharmaciesList = ({ pharmacies, showLocationPharmacy }) => {
                 <Image
                   src="https://react.semantic-ui.com/images/wireframe/square-image.png"
                   size="tiny"
+                  circular
                 />
               </div>
               <div className="pharmacy_info">
@@ -21,7 +22,11 @@ export const PharmaciesList = ({ pharmacies, showLocationPharmacy }) => {
                 <p as="h4">Horario de atencion: {pharmacy?.hours}</p>
               </div>
             </div>
-            <Button onClick={() => showLocationPharmacy(pharmacy)}>
+            <Button
+              onClick={() => showLocationPharmacy(pharmacy)}
+              className="btn__location"
+              circular
+            >
               Ver ubicacion
             </Button>
           </Card>

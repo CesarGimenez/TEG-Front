@@ -2,7 +2,7 @@
     .ui.menu {
         width: 250px !important;
         overflow: hidden;
-        padding-top: 6em;
+        padding-top: 5em;
         z-index: 99 !important;
 
         i.icon {
@@ -23,8 +23,8 @@
         top: 50px;
         padding: 50px;
         width: calc(100% - 250px);
-        height: 100vh;
-        background-color: #CECFc9;
+        height: 100%;
+        background: linear-gradient(90deg, rgb(50, 94, 151) 0%, rgb(52, 103, 145));
 
         .ui.card {
 

@@ -17,6 +17,7 @@ import "./Pharmacies.scss";
 import { PharmaciesMap } from "./PharmaciesMap";
 import { useMedicine } from "../../hooks/useMedicine";
 import { ModalBasic } from "../../components/modals/ModalBasic";
+import { ReactComponent as MedicineSVG } from "../../assets/medicine_medical.svg";
 
 export const Farmacies = () => {
   const { loading, pharmacies, getPharmacies, getPharmaciesByMedicines } =
@@ -95,8 +96,21 @@ export const Farmacies = () => {
     <div>
       <Card fluid centered>
         <Header as="h1">Farmacias</Header>
+        <MedicineSVG className="svg_component animate__animated animate__fadeInRight" />
         <div className="layout_menu_pharmacy">
-          <Form>
+          <Menu tabular className="menu_display_pharmacy">
+            <Menu.Item
+              name="Listado"
+              active={modeList}
+              onClick={handleChangeMode}
+            />
+            <Menu.Item
+              name="Mapa"
+              active={!modeList}
+              onClick={handleChangeMode}
+            />
+          </Menu>
+          <Form className="form_consultation">
             <Header as="h3">
               Consulte farmacias segun 1 o mas medicamentos
             </Header>
@@ -109,23 +123,14 @@ export const Farmacies = () => {
                 options={formatMedicines(medicines)}
                 onChange={setMedicinesListOnChange}
               />
-              <Button onClick={handleSearchPharmaciesByMedicines}>
+              <Button
+                onClick={handleSearchPharmaciesByMedicines}
+                className="btn__search__pharmacy"
+              >
                 Consultar
               </Button>
             </div>
           </Form>
-          <Menu tabular>
-            <Menu.Item
-              name="Lista"
-              active={modeList}
-              onClick={handleChangeMode}
-            />
-            <Menu.Item
-              name="Mapa"
-              active={!modeList}
-              onClick={handleChangeMode}
-            />
-          </Menu>
         </div>
         {loading ? (
           <Loader active inline="centered">

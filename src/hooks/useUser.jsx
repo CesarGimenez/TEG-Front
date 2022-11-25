@@ -4,6 +4,7 @@ import {
   getUsersDoctorsApi,
   getUserApi,
   updateUserApi,
+  createUserApi,
 } from "../api/user";
 import { useAuth } from "./useAuth";
 
@@ -62,6 +63,18 @@ export const useUser = () => {
     }
   };
 
+  const createUser = async (data) => {
+    try {
+      setLoading(true);
+      const response = await createUserApi(auth?.token, data);
+      setLoading(false);
+      return response;
+    } catch (error) {
+      setError(error);
+      throw error;
+    }
+  };
+
   return {
     loading,
     error,
@@ -71,5 +84,6 @@ export const useUser = () => {
     getUser,
     getUsersDoctors,
     updateUser,
+    createUser,
   };
 };

@@ -6,15 +6,26 @@ export const DoctorsList = ({ doctors }) => {
     <div className="layout">
       {doctors?.map((doc) => {
         return (
-          <Card key={doc?._id}>
-            {doc.is_verified && <Icon name="check circle" />}
+          <Card key={doc?._id} className="card__doctor">
+            {doc.is_verified && (
+              <div className="verified_dr">
+                <Icon name="check circle" /> <p>Especialista verificado</p>
+              </div>
+            )}
             <Image
-              src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+              src={
+                doc?.image
+                  ? doc.image
+                  : doc?.gender == "F"
+                  ? "https://res.cloudinary.com/dl57f2zr5/image/upload/v1669255864/female_avatar_jxz4ky.svg"
+                  : "https://res.cloudinary.com/dl57f2zr5/image/upload/v1669255864/male_avatar_bqtyqi.svg"
+              }
               size="tiny"
               circular
             />
             <Header as="h4">
-              {doc?.first_name} {doc?.last_name}
+              {doc?.gender === "M" ? "Dr." : "Dra."} {doc?.first_name}{" "}
+              {doc?.last_name}
             </Header>
             <p as="h4">
               {doc?.areas?.length > 1 ? "Especialidades" : "Especialidad"}:{" "}

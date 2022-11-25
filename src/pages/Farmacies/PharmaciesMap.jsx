@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export const PharmaciesMap = ({ pharmacies }) => {
   const [coordinates, setCoordinates] = useState(null);
+  const [directions, setDirections] = useState(null);
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
@@ -12,6 +13,22 @@ export const PharmaciesMap = ({ pharmacies }) => {
       }
     );
   }, []);
+
+  // const fetchDirections = (location) => {
+  //   console.log(google.maps);
+  //   console.log(<GoogleMapReact></GoogleMapReact>);
+  //   const service = new google.maps.DirectionsService();
+  //   service.route(
+  //     {
+  //       origin: coordinates,
+  //       destination: location,
+  //       travelMode: google.maps.DirectionsTravelMode.DRIVING,
+  //     },
+  //     (result, status) => {
+  //       if (status == "OK" && result) setDirections(result);
+  //     }
+  //   );
+  // };
 
   return (
     <div className="map_container">
@@ -40,10 +57,26 @@ export const PharmaciesMap = ({ pharmacies }) => {
               <Label className="marker_label" color="blue">
                 {pharmacy?.name}
               </Label>
-              <Icon className="marker_icon" name="map marker alternate" />
+              <Icon
+                className="marker_icon"
+                name="map marker alternate"
+                // onClick={() => {
+                //   fetchDirections(pharmacy?.location);
+                // }}
+              />
             </div>
           );
         })}
+        <div
+          lat={coordinates?.lat}
+          lng={coordinates?.lng}
+          className="marker_container"
+        >
+          <Label className="marker_label_me" color="red">
+            Tu ubicacion{" "}
+          </Label>
+          <Icon className="marker_icon_me" name="map marker alternate" />
+        </div>
       </GoogleMapReact>
     </div>
   );

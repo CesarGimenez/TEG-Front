@@ -1,13 +1,25 @@
 $primary_color: #276c90;
 $darkprimary_color: #0a3143;
 $lightprimary_color: #00B5aD;
+$lightprimary_color2: #64c5c0;
 $secondary_color: #CECFc9;
 $light_color: #EFEFEF;
+$purple: #5101ac;
+
+a, h1, h2, h3, h4, h5, h6, div, label, input {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+h1.ui.header {
+    color: #276c90 !important;
+}
 
 .button {
-    background-color: $darkprimary_color !important;
+    background-color: $purple !important;
     margin-top: 20px !important;
     color: $light_color !important;
+    border-radius: 50px !important;
+    font-family: 'Roboto', sans-serif !important;
     &:hover {
         background-color: $lightprimary_color !important; 
     }
@@ -20,4 +32,23 @@ $light_color: #EFEFEF;
     background-color: #CECFc9 !important;
     font-size: 15px !important;
     margin-left: 10px !important;
+}
+
+a.item:hover {
+    background-color: #276c90 !important;
+    color: #CECFc9 !important;
+}
+
+.ui.menu .active.item  {
+    background-color: #276c90 !important;
+    color: #EFEFEF !important;
+}
+
+input {
+    border-radius: 20px !important;
+}
+
+.ui.selection.dropdown {
+    border-radius: 20px !important;
+
 }

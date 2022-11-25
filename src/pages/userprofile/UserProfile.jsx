@@ -10,6 +10,8 @@ import { getToken } from "../../api/token";
 import { getMeApi } from "../../api/auth";
 import { useUser } from "../../hooks/useUser";
 
+import "./UserProfile.scss";
+
 export const UserProfile = () => {
   const { auth } = useAuth();
   const { user } = auth;
@@ -55,7 +57,10 @@ export const UserProfile = () => {
           <Header as="h1" color="blue">
             Hola de nuevo, {userDetail?.first_name} {userDetail?.last_name}
           </Header>
-          <Button onClick={() => openUserModal(userDetail)}>
+          <Button
+            onClick={() => openUserModal(userDetail)}
+            className="btn__profile"
+          >
             {" "}
             Editar perfil{" "}
           </Button>
@@ -71,18 +76,57 @@ export const UserProfile = () => {
             circular
           />
           <div className="user_home__info">
-            <Header as="h3">
-              Fecha de nacimiento:{" "}
-              {moment(userDetail?.birthdate).format("DD/MM/yyyy")}
-            </Header>
-            <Header as="h3">Correo: {userDetail?.email}</Header>
-            <Header as="h3">Numero de telefono: {userDetail?.phone}</Header>
-            <Header as="h3">
-              Contacto de emergencia: {userDetail?.parent_phone}
-            </Header>
+            <div className="user_home__info__label">
+              <Header as="h3">Nombre completo: </Header>
+              <p>
+                {userDetail?.first_name} {userDetail?.last_name}
+              </p>
+            </div>
+            <div className="user_home__info__label">
+              <Header as="h3">DNI:</Header>
+              <p> {userDetail?.dni || "Sin informacion"}</p>
+            </div>
+            <div className="user_home__info__label">
+              <Header as="h3">Correo:</Header>
+              <p> {userDetail?.email}</p>
+            </div>
+            <div className="user_home__info__label">
+              <Header as="h3">Numero de telefono:</Header>
+              <p> {userDetail?.phone}</p>
+            </div>
+            <div className="user_home__info__label">
+              <Header as="h3">Contacto de emergencia:</Header>
+              <p> {userDetail?.parent_phone}</p>
+            </div>
+          </div>
+          <div className="user_home__info">
+            <div className="user_home__info__label">
+              <Header as="h3">Tipo de sangre: </Header>
+              <p>{userDetail?.blood_group || "Sin informacion"}</p>
+            </div>
+            <div className="user_home__info__label">
+              <Header as="h3">Genero: </Header>
+              <p>
+                {userDetail?.gender == "M"
+                  ? "Masculino"
+                  : "Femenino" || "Sin informacion"}
+              </p>
+            </div>
+            <div className="user_home__info__label">
+              <Header as="h3">Direccion de residencia:</Header>
+              <p> {userDetail?.address || "Sin informacion"}</p>
+            </div>
+            <div className="user_home__info__label">
+              <Header as="h3">Fecha de nacimiento: </Header>
+              <p>
+                {moment(userDetail?.birthdate).format("DD/MM/yyyy") ||
+                  "Sin informacion"}{" "}
+                ({moment().diff(userDetail?.birthdate, "years") || "(N/A)"})
+              </p>
+            </div>
           </div>
         </div>
-        <div className="parents_registered">
+        {/* <div className="parents_registered">
           {userDetail?.family ? (
             <div>
               <Header as="h1" color="blue">
@@ -91,12 +135,15 @@ export const UserProfile = () => {
               <Button> Agregar nuevos familiares</Button>
             </div>
           ) : (
-            <Button onClick={() => openFamiliariesModal()}>
+            <Button
+              onClick={() => openFamiliariesModal()}
+              className="btn__profile"
+            >
               {" "}
               Agregar un familiar (Ni;o o adulto mayor)
             </Button>
           )}
-        </div>
+        </div> */}
       </Card>
       <ModalBasic
         show={showModal}

@@ -58,9 +58,20 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
             <Grid.Column>
               <input {...getInputProps()} />
               <div style={{ display: "flex", justifyContent: "center" }}>
-                <Image src={previewImage} size="small" circular />
+                <Image
+                  src={previewImage}
+                  size="small"
+                  circular
+                  className="img__edit__profile"
+                />
               </div>
-              <div style={{ display: "flex", justifyContent: "center" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: 10,
+                }}
+              >
                 <Button
                   type="button"
                   fluid

@@ -8,6 +8,8 @@
     width: 400px !important;
     max-height: 300px !important;
     margin-right: 20px !important;
+    margin: 14px 20px 14px 0px !important;
+    border-radius: 20px !important;
 }
 
 .pharmacy__card2 {
@@ -24,15 +26,10 @@
     }
 }
 
-.layout_menu_pharmacy {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .map_container {
     height: 85vh; 
     width: 100%;
+    margin-top: 20px;
 
     &_modal {
         height: 50vh;
@@ -40,6 +37,10 @@
 }
 
 .marker_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     transition: ease-in 0.5s;
 }
 
@@ -47,17 +48,47 @@
     transform: scale(2.2);
     color: rgb(30, 30, 114);
     transition: ease-in 0.3s;
+
+    &_me {
+        transform: scale(2.2);
+        color: rgb(141, 0, 0);
+        transition: ease-in 0.3s;
+    }
 }
 
-.marker_label {
-    
+.marker_label_me {
+    text-align: center;
+    width: 100px !important;
 }
 
 .marker_container:hover {
     transform: scale(1.2) translateY(-5px);
 }
 
+.svg_component {
+    position: absolute;
+    right: 50px !important;
+    height: 800px !important;
+    bottom: 30px;
+}
+
 .form_filter {
     display: flex;
     align-items: center;
+}
+
+.btn__search__pharmacy {
+    margin: 0 !important;
+    margin-left: 6px !important;
+}
+
+.ui.tabular.menu {
+    border: none !important;
+    margin: 0px !important;
+    margin-bottom: 15px !important;
+    padding: 0 !important;
+}
+
+.form_consultation{
+    margin-bottom: 20px;
 }

@@ -1,0 +1,42 @@
+.btn__search__doctors {
+    margin: 0 !important;
+    margin-left: 6px !important;
+}
+
+.card__doctor {
+    margin: 14px 20px 14px 0px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center !important;
+    border-radius: 20px !important;
+
+    img {
+        width: 100px !important;
+        height: 100px !important;
+        object-fit: cover !important;
+        border-radius: 50px !important;
+    }
+}
+
+.svg_component {
+    position: absolute;
+    right: 5px;
+    top: -250px;
+    width: 300px;
+}
+
+.layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.verified_dr{
+    display: flex;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: green;
+    font-weight: bold;
+}

@@ -1,13 +1,16 @@
 .auth {
     display: flex;
-
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    background-color: linear-gradient(45deg, blue, red);
     &_form {
         height: 100vh;
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #276c90;
+        background: linear-gradient(45deg, rgba(0, 195, 255, 0.74), #276c90);
     
         &-content {
             background-color: #ffff;
@@ -27,3 +30,8 @@
     }
 }
 
+.wellcome_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

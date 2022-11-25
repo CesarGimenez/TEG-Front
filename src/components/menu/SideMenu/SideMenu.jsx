@@ -8,10 +8,12 @@ import { Farmacies } from "../../../pages/Farmacies/Farmacies";
 import { Doctors } from "../../../pages/doctors/Doctors";
 import { History } from "../../../pages/history/History";
 import { AdminDashboard } from "../../../pages/AdminDashboard/AdminDashboard";
+import { MyAttentions } from "../../../pages/DoctorPages/MyAttentions/MyAttentions";
+import { NewDiagnostic } from "../../../pages/DoctorPages/NewDiagnostic/NewDiagnostic";
 
 export const SideMenu = () => {
   const { auth } = useAuth();
-
+  console.log(auth?.user);
   const { pathname } = useLocation();
   return (
     <div className="side_menu">
@@ -58,13 +60,22 @@ export const SideMenu = () => {
             <Icon name="hospital" /> Mi centro de salud
           </Menu.Item>
         )}
-        {auth?.user?.role_id === '"62d896e5c3885dab609328d4"' && (
+        {auth?.user?.role_id === "62d896e5c3885dab609328d4" && (
           <Menu.Item
             as={Link}
             to={"/atenciones"}
             active={pathname === "/atenciones"}
           >
             <Icon name="hospital" /> Mis atenciones
+          </Menu.Item>
+        )}
+        {auth?.user?.role_id === "62d896e5c3885dab609328d4" && (
+          <Menu.Item
+            as={Link}
+            to={"/nuevo-diagnostico"}
+            active={pathname === "/nuevo-diagnostico"}
+          >
+            <Icon name="hospital" /> Nuevo diagnostico
           </Menu.Item>
         )}
       </Menu>
@@ -75,6 +86,8 @@ export const SideMenu = () => {
           <Route path="medical" element={<Doctors />} />
           <Route path="history" element={<History />} />
           <Route path="admin" element={<AdminDashboard />} />
+          <Route path="atenciones" element={<MyAttentions />} />
+          <Route path="nuevo-diagnostico" element={<NewDiagnostic />} />
           {/* <Route path="" element={<Orders />} />
             <Route path="tables/:id" element={<TableDetailsAdmin />} />
             <Route path="*" element={<Error404 />} /> */}

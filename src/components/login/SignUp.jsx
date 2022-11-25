@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -10,35 +10,103 @@ import {
   Message,
   Segment,
 } from "semantic-ui-react";
+import moment from "moment";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
+import { useArea } from "../../hooks/useArea";
+import { useUser } from "../../hooks/useUser";
+import { toast } from "react-toastify";
 
-const options = [
+const optionsNumber = [
   {
-    key: "medicina interna",
-    text: "medicina interna",
-    value: "medicina interna",
+    key: "0412",
+    text: "0412",
+    value: "0412",
   },
-  { key: "pediatria", text: "pediatria", value: "pediatria" },
-  { key: "neumonologia", text: "neumonologia", value: "neumonologia" },
-  { key: "traumatologia", text: "traumatologia", value: "traumatologia" },
-  { key: "nefrologia", text: "nefrologia", value: "nefrologia" },
-  { key: "oncologia", text: "oncologia", value: "oncologia" },
-  { key: "urologia", text: "urologia", value: "urologia" },
-  { key: "ginecologia", text: "ginecologia", value: "ginecologia" },
-  { key: "cirugia general", text: "cirugia general", value: "cirugia general" },
-  { key: "cardiologia", text: "cardiologia", value: "cardiologia" },
+  {
+    key: "0414",
+    text: "0414",
+    value: "0414",
+  },
+  {
+    key: "0416",
+    text: "0416",
+    value: "0416",
+  },
+  {
+    key: "0424",
+    text: "0424",
+    value: "0424",
+  },
+  {
+    key: "0426",
+    text: "0426",
+    value: "0426",
+  },
+  {
+    key: "0252",
+    text: "0251",
+    value: "0251",
+  },
+];
+
+const genderOptions = [
+  {
+    key: "M",
+    text: "Masculino",
+    value: "M",
+  },
+  {
+    key: "F",
+    text: "Femenino",
+    value: "F",
+  },
+  {
+    key: "O",
+    text: "Otro",
+    value: "O",
+  },
 ];
 
 export const SignUp = ({ handleRegister }) => {
+  const { areas, getAreas } = useArea();
+  const { loading, createUser } = useUser();
   const [checkDoctor, setCheckDoctor] = useState(false);
+  const [codeNumber, setCodeNumber] = useState(null);
+
+  useEffect(() => {
+    getAreas();
+  }, []);
+
+  const formatAreas = (areas) => {
+    return areas?.map((item) => {
+      return {
+        key: item._id,
+        text: item?.name,
+        value: item?._id,
+      };
+    });
+  };
 
   const formik = useFormik({
     initialValues: initialValues(checkDoctor),
     validationSchema: Yup.object(validationSchema(checkDoctor)),
     validateOnChange: false,
     onSubmit: async (formValue) => {
-      console.log(formValue);
+      try {
+        formValue.birthdate = new Date(formValue.birthdate).toISOString();
+        formValue.phone = `${codeNumber}-${formValue.phone}`;
+        const res = await createUser(formValue);
+        if (res?.error) {
+          toast.error(res?.error);
+        }
+        if (res?.msg) {
+          toast.success(res?.msg);
+        }
+        setTimeout(handleRegister(), 2000);
+      } catch (error) {
+        throw error;
+      }
     },
   });
 
@@ -58,26 +126,37 @@ export const SignUp = ({ handleRegister }) => {
         </Header>
         <Form size="large" onSubmit={formik.handleSubmit}>
           <Segment stacked>
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Nombre"
-              name="first_name"
-              value={formik.values.first_name}
-              onChange={formik.handleChange}
-              error={formik.errors.first_name}
-            />
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Apellido"
-              name="last_name"
-              value={formik.values.last_name}
-              onChange={formik.handleChange}
-              error={formik.errors.last_name}
-            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 10,
+              }}
+            >
+              <div style={{ width: "48%" }}>
+                <Form.Input
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="Nombre"
+                  name="first_name"
+                  value={formik.values.first_name}
+                  onChange={formik.handleChange}
+                  error={formik.errors.first_name}
+                />
+              </div>
+              <div style={{ width: "48%" }}>
+                <Form.Input
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="Apellido"
+                  name="last_name"
+                  value={formik.values.last_name}
+                  onChange={formik.handleChange}
+                  error={formik.errors.last_name}
+                />
+              </div>
+            </div>
+
             <Form.Input
               fluid
               icon="address card "
@@ -98,28 +177,40 @@ export const SignUp = ({ handleRegister }) => {
               onChange={formik.handleChange}
               error={formik.errors.email}
             />
-            <Form.Input
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.errors.password}
-            />
-            <Form.Input
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Confirmar password"
-              type="password"
-              name="confirmpassword"
-              value={formik.values.confirmpassword}
-              onChange={formik.handleChange}
-              error={formik.errors.confirmpassword}
-            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 10,
+              }}
+            >
+              <div style={{ width: "48%" }}>
+                <Form.Input
+                  icon="lock"
+                  iconPosition="left"
+                  placeholder="Password"
+                  type="password"
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={formik.errors.password}
+                />
+              </div>
+              <div style={{ width: "48%" }}>
+                <Form.Input
+                  fluid
+                  icon="lock"
+                  iconPosition="left"
+                  placeholder="Confirmar password"
+                  type="password"
+                  name="confirmpassword"
+                  value={formik.values.confirmpassword}
+                  onChange={formik.handleChange}
+                  error={formik.errors.confirmpassword}
+                />
+              </div>
+            </div>
+
             <Form.Input
               fluid
               icon="address book"
@@ -130,17 +221,64 @@ export const SignUp = ({ handleRegister }) => {
               onChange={formik.handleChange}
               error={formik.errors.address}
             />
-            <Form.Input
-              fluid
-              icon="phone"
-              iconPosition="left"
-              placeholder="Telefono"
-              name="phone"
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-              error={formik.errors.phone}
-            />
+            <div style={{ display: "flex", marginBottom: 10 }}>
+              <div style={{ marginRight: 5 }}>
+                <Dropdown
+                  placeholder="Code"
+                  compact
+                  selection
+                  options={optionsNumber}
+                  onChange={(_, data) => setCodeNumber(data.value)}
+                />
+              </div>
+              <div style={{ width: "90%" }}>
+                <Form.Input
+                  icon="phone"
+                  iconPosition="left"
+                  placeholder="Telefono"
+                  name="phone"
+                  value={formik.values.phone}
+                  onChange={formik.handleChange}
+                  error={formik.errors.phone}
+                />
+              </div>
+            </div>
 
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 10,
+              }}
+            >
+              <div style={{ width: "48%" }}>
+                <Form.Input
+                  icon="calendar"
+                  iconPosition="left"
+                  placeholder="Fecha de nacimiento"
+                  type="date"
+                  name="birthdate"
+                  value={formik.values.birthdate}
+                  onChange={formik.handleChange}
+                  error={formik.errors.birthdate}
+                />
+              </div>
+              <div style={{ width: "48%" }}>
+                <Dropdown
+                  icon="genderless"
+                  iconPosition="right"
+                  placeholder="Genero"
+                  name="gender"
+                  selection
+                  options={genderOptions}
+                  value={formik.values.gender}
+                  onChange={(_, data) =>
+                    formik.setFieldValue("gender", data.value)
+                  }
+                  error={Boolean(formik.errors.gender)}
+                />
+              </div>
+            </div>
             <Form.Input
               fluid
               iconPosition="left"
@@ -188,7 +326,7 @@ export const SignUp = ({ handleRegister }) => {
                   selection
                   search
                   value={formik.values.areas || []}
-                  options={options}
+                  options={formatAreas(areas)}
                   onChange={(_, data) =>
                     formik.setFieldValue("areas", data.value)
                   }
@@ -231,6 +369,8 @@ const initialValues = (checkDoctor) => {
     parent_phone: "",
     centeradmin: "",
     pharmacyadmin: "",
+    gender: "",
+    birthdate: "",
   };
 };
 
@@ -288,16 +428,44 @@ const validationSchema = (checkDoctor) => {
           return false;
         }
       ),
-    confirmpassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords no coinciden'),
+    confirmpassword: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Passwords no coinciden"
+    ),
     address: Yup.string().required(true).trim(),
     phone: Yup.string()
       .trim()
       .required(true)
       .matches(
         /^[0-9]{7,}?$/i,
-        "Formato invalido para telefono. Ejemplo: 02125554433"
+        "Formato invalido para telefono. Ejemplo: 04125554433"
       ),
     areas: checkDoctor ? Yup.array().min(1) : Yup.array(),
     role_id: Yup.string(),
+    gender: Yup.string().required("Es un campo requerido"),
+    birthdate: Yup.string()
+      .test(Yup.string, "No es una fecha valida", (value) => {
+        const now = new moment();
+        const birthdate = new moment(value);
+        const diff = now.diff(birthdate, "years");
+        if (diff <= 0 || diff >= 100) {
+          return false;
+        }
+        return true;
+      })
+      .test(
+        Yup.string,
+        "No puede registrar un menor de edad con perfil medico",
+        (value) => {
+          const now = new moment();
+          const birthdate = new moment(value);
+          const diff = now.diff(birthdate, "years");
+          if (diff < 21 && checkDoctor) {
+            return false;
+          }
+          return true;
+        }
+      )
+      .required("Es un campo requerido"),
   };
 };

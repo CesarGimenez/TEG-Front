@@ -6,7 +6,7 @@ export const TopMenu = () => {
   const { auth, logout } = useAuth();
   const { user } = auth;
   return (
-    <Menu fixed="top" color={"blue"} inverted className="top-menu">
+    <Menu fixed="top" className="top-menu">
       <Menu.Item className="top-menu__logo">Sistema</Menu.Item>
 
       <Menu.Item position="right">
