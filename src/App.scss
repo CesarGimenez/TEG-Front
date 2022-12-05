@@ -6,6 +6,10 @@ $secondary_color: #CECFc9;
 $light_color: #EFEFEF;
 $purple: #5101ac;
 
+body {
+    background-color: $primary_color !important;
+}
+
 a, h1, h2, h3, h4, h5, h6, div, label, input {
     font-family: 'Roboto', sans-serif !important;
 }
