@@ -1,8 +1,12 @@
 import { BASE_API } from "../util/constants";
+import { removeToken } from "./token";
 
-export const getUsersApi = async (token) => {
+export const getUsersApi = async (token, limit, skip) => {
   try {
-    const url = `${BASE_API}/user/`;
+    let url = `${BASE_API}/user/`;
+    if (limit) {
+      url = `${BASE_API}/user?limit=${limit}&skip=${skip}`;
+    }
     const params = {
       method: "GET",
       headers: {

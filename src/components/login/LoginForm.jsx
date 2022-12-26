@@ -12,6 +12,7 @@ import * as Yup from "yup";
 import { useAuth } from "../../hooks/useAuth";
 import { LoginAPI } from "../../api/auth";
 import { toast } from "react-toastify";
+import { Home } from "../../pages/home/Home";
 
 export const LoginForm = ({ handleRegister }) => {
   const { login, auth } = useAuth();
@@ -29,6 +30,7 @@ export const LoginForm = ({ handleRegister }) => {
         }
         login(user.access);
         toast.success("Ingreso con exito");
+        return <Home />;
       } catch (error) {
         console.log(error);
       }

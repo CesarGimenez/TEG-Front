@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Icon, Loader, Pagination, Table } from "semantic-ui-react";
 import { map } from "lodash";
-import { useUser } from "../../../hooks/useUser";
+import { Button, Icon, Loader, Pagination, Table } from "semantic-ui-react";
+import { useDisease } from "../../../hooks/useDisease";
+import { HeaderPage } from "../Header";
+import { AddEditDiseaseForm } from "../../../components/forms/diseases/AddEditDiseaseForm";
 import { ModalBasic } from "../../../components/modals/ModalBasic";
 import { ConfirmBasic } from "../../../components/modals/ConfirmBasic";
-import { AddEditUserForm } from "../../../components/forms/users/AddEditUserForm";
-import { HeaderPage } from "../Header";
 
-export const UserTable = () => {
-  const { loading, users, getUsers, countUsers } = useUser();
+export const DiseaseTable = () => {
+  const { loading, diseases, getDiseases, countDiseases } = useDisease();
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState(null);
   const [contentModal, setContentModal] = useState(null);
@@ -18,47 +18,47 @@ export const UserTable = () => {
 
   const [activePage, setActivePage] = useState(1);
   const limit = 10;
-  const pages = Math.ceil(countUsers / limit);
+  const pages = Math.ceil(countDiseases / limit);
   const skip = limit * activePage - limit;
 
   const openCloseModal = () => setShowModal((prev) => !prev);
   const onRefetch = () => setRefetch(!refetch);
 
-  useEffect(() => {
-    getUsers(limit, skip);
-  }, [refetch, activePage]);
-
-  const addUser = () => {
-    setTitleModal("Nuevo usuario");
+  const addDisease = () => {
+    setTitleModal("Nueva enfermedad");
     setContentModal(
-      <AddEditUserForm closeModal={openCloseModal} onRefetch={onRefetch} />
+      <AddEditDiseaseForm closeModal={openCloseModal} onRefetch={onRefetch} />
     );
     openCloseModal();
   };
 
-  const updateUser = (data) => {
-    setTitleModal("Actualizar usuario");
+  const updateDisease = (data) => {
+    setTitleModal("Actualizar enfermedad");
     setContentModal(
-      <AddEditUserForm
+      <AddEditDiseaseForm
         closeModal={openCloseModal}
         onRefetch={onRefetch}
-        user={data}
+        disease={data}
       />
     );
     openCloseModal();
   };
 
   const showConfirm = (data) => {
-    setTitleConfirm(`Esta seguro de eliminar al usuario ${data?.email}?`);
+    setTitleConfirm(`Esta seguro de eliminar la enfermedad '${data?.name}'?`);
     setConfirmState(true);
   };
+
+  useEffect(() => {
+    getDiseases(limit, skip);
+  }, [activePage, refetch]);
 
   return (
     <div>
       <HeaderPage
-        titlePage="Usuarios"
-        btnTitle="Nuevo usuario"
-        btnClick={addUser}
+        titlePage="Enfermedades"
+        btnTitle="Nueva enfermedad"
+        btnClick={addDisease}
       />
       {loading ? (
         <Loader active inline="centered">
@@ -69,40 +69,30 @@ export const UserTable = () => {
           <Table>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Email</Table.HeaderCell>
                 <Table.HeaderCell>Nombre</Table.HeaderCell>
-                <Table.HeaderCell>Apellido</Table.HeaderCell>
-                <Table.HeaderCell>DNI</Table.HeaderCell>
-                <Table.HeaderCell>Activo</Table.HeaderCell>
-                <Table.HeaderCell>Admin</Table.HeaderCell>
-                <Table.HeaderCell>Medico</Table.HeaderCell>
+                <Table.HeaderCell>Descripcion</Table.HeaderCell>
+                <Table.HeaderCell>Activa</Table.HeaderCell>
+                <Table.HeaderCell>Requiere diagnostico</Table.HeaderCell>
                 <Table.HeaderCell>Acciones</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
-              {map(users, (user, index) => (
+              {map(diseases, (disease, index) => (
                 <Table.Row key={index}>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>{user.first_name}</Table.Cell>
-                  <Table.Cell>{user.last_name}</Table.Cell>
-                  <Table.Cell>{user?.dni || "Sin informacion"}</Table.Cell>
+                  <Table.Cell>{disease?.name || "Sin informacion"}</Table.Cell>
+                  <Table.Cell style={{ maxWidth: 300 }}>
+                    {disease?.description || "Sin informacion"}
+                  </Table.Cell>
                   <Table.Cell>
-                    {user.active ? (
+                    {disease?.active ? (
                       <Icon name="check" />
                     ) : (
                       <Icon name="close" />
                     )}
                   </Table.Cell>
                   <Table.Cell>
-                    {user.is_Admin ? (
-                      <Icon name="check" />
-                    ) : (
-                      <Icon name="close" />
-                    )}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {user?.role_id?.name === "Medico" ? (
+                    {disease?.require_diagnosys ? (
                       <Icon name="check" />
                     ) : (
                       <Icon name="close" />
@@ -110,8 +100,8 @@ export const UserTable = () => {
                   </Table.Cell>
 
                   <Actions
-                    user={user}
-                    updateUser={updateUser}
+                    disease={disease}
+                    updateDisease={updateDisease}
                     showConfirm={showConfirm}
                   />
                 </Table.Row>
@@ -157,19 +147,16 @@ export const UserTable = () => {
   );
 };
 
-const Actions = ({ user, updateUser, showConfirm }) => {
+const Actions = ({ disease, updateDisease, showConfirm }) => {
   return (
-    <Table.Cell textAlign="right">
-      {user.role_id?.name === "Medico" && (
-        <Button icon negative onClick={() => showConfirm(user)}>
-          <Icon name="pencil" /> Perfil Medico
-        </Button>
-      )}
-
-      <Button icon onClick={() => updateUser(user)}>
+    <Table.Cell textAlign="center">
+      <Button icon negative onClick={() => showConfirm(disease)}>
+        <Icon name="pencil" /> Areas
+      </Button>
+      <Button icon onClick={() => updateDisease(disease)}>
         <Icon name="pencil" />
       </Button>
-      <Button icon negative onClick={() => showConfirm(user)}>
+      <Button icon negative onClick={() => showConfirm(disease)}>
         <Icon name="trash" />
       </Button>
     </Table.Cell>

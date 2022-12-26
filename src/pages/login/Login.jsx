@@ -7,7 +7,6 @@ import "./Login.scss";
 export const Login = () => {
   const [isNew, setIsNew] = useState(false);
   const handleRegister = () => setIsNew((prev) => !prev);
-  console.log(WellcomeSVG);
   return (
     <div className="auth">
       <div className="auth_form">

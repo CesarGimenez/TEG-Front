@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Icon, Loader, Pagination, Table } from "semantic-ui-react";
 import { map } from "lodash";
-import { useUser } from "../../../hooks/useUser";
+import { AddEditAreaForm } from "../../../components/forms/areas/AddEditAreaForm";
+import { useArea } from "../../../hooks/useArea";
+import { HeaderPage } from "../Header";
 import { ModalBasic } from "../../../components/modals/ModalBasic";
 import { ConfirmBasic } from "../../../components/modals/ConfirmBasic";
-import { AddEditUserForm } from "../../../components/forms/users/AddEditUserForm";
-import { HeaderPage } from "../Header";
 
-export const UserTable = () => {
-  const { loading, users, getUsers, countUsers } = useUser();
+export const AreasTable = () => {
+  const { loading, areas, getAreas, countAreas } = useArea();
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState(null);
   const [contentModal, setContentModal] = useState(null);
@@ -18,47 +18,47 @@ export const UserTable = () => {
 
   const [activePage, setActivePage] = useState(1);
   const limit = 10;
-  const pages = Math.ceil(countUsers / limit);
+  const pages = Math.ceil(countAreas / limit);
   const skip = limit * activePage - limit;
 
   const openCloseModal = () => setShowModal((prev) => !prev);
   const onRefetch = () => setRefetch(!refetch);
 
-  useEffect(() => {
-    getUsers(limit, skip);
-  }, [refetch, activePage]);
-
-  const addUser = () => {
-    setTitleModal("Nuevo usuario");
+  const addArea = () => {
+    setTitleModal("Nueva area de especialidad");
     setContentModal(
-      <AddEditUserForm closeModal={openCloseModal} onRefetch={onRefetch} />
+      <AddEditAreaForm closeModal={openCloseModal} onRefetch={onRefetch} />
     );
     openCloseModal();
   };
 
-  const updateUser = (data) => {
-    setTitleModal("Actualizar usuario");
+  const updateArea = (data) => {
+    setTitleModal("Actualizar area de especialidad");
     setContentModal(
-      <AddEditUserForm
+      <AddEditAreaForm
         closeModal={openCloseModal}
         onRefetch={onRefetch}
-        user={data}
+        area={data}
       />
     );
     openCloseModal();
   };
 
   const showConfirm = (data) => {
-    setTitleConfirm(`Esta seguro de eliminar al usuario ${data?.email}?`);
+    setTitleConfirm(`Esta seguro de eliminar el area '${data?.name}'?`);
     setConfirmState(true);
   };
+
+  useEffect(() => {
+    getAreas(limit, skip);
+  }, [activePage, refetch]);
 
   return (
     <div>
       <HeaderPage
-        titlePage="Usuarios"
-        btnTitle="Nuevo usuario"
-        btnClick={addUser}
+        titlePage="Areas de especialidad"
+        btnTitle="Nueva area"
+        btnClick={addArea}
       />
       {loading ? (
         <Loader active inline="centered">
@@ -69,40 +69,22 @@ export const UserTable = () => {
           <Table>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Email</Table.HeaderCell>
                 <Table.HeaderCell>Nombre</Table.HeaderCell>
-                <Table.HeaderCell>Apellido</Table.HeaderCell>
-                <Table.HeaderCell>DNI</Table.HeaderCell>
+                <Table.HeaderCell>Descripcion</Table.HeaderCell>
                 <Table.HeaderCell>Activo</Table.HeaderCell>
-                <Table.HeaderCell>Admin</Table.HeaderCell>
-                <Table.HeaderCell>Medico</Table.HeaderCell>
                 <Table.HeaderCell>Acciones</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
-              {map(users, (user, index) => (
+              {map(areas, (area, index) => (
                 <Table.Row key={index}>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>{user.first_name}</Table.Cell>
-                  <Table.Cell>{user.last_name}</Table.Cell>
-                  <Table.Cell>{user?.dni || "Sin informacion"}</Table.Cell>
-                  <Table.Cell>
-                    {user.active ? (
-                      <Icon name="check" />
-                    ) : (
-                      <Icon name="close" />
-                    )}
+                  <Table.Cell>{area?.name || "Sin informacion"}</Table.Cell>
+                  <Table.Cell style={{ maxWidth: 300 }}>
+                    {area?.description || "Sin informacion"}
                   </Table.Cell>
                   <Table.Cell>
-                    {user.is_Admin ? (
-                      <Icon name="check" />
-                    ) : (
-                      <Icon name="close" />
-                    )}
-                  </Table.Cell>
-                  <Table.Cell>
-                    {user?.role_id?.name === "Medico" ? (
+                    {area?.active ? (
                       <Icon name="check" />
                     ) : (
                       <Icon name="close" />
@@ -110,8 +92,8 @@ export const UserTable = () => {
                   </Table.Cell>
 
                   <Actions
-                    user={user}
-                    updateUser={updateUser}
+                    area={area}
+                    updateArea={updateArea}
                     showConfirm={showConfirm}
                   />
                 </Table.Row>
@@ -157,19 +139,13 @@ export const UserTable = () => {
   );
 };
 
-const Actions = ({ user, updateUser, showConfirm }) => {
+const Actions = ({ area, updateArea, showConfirm }) => {
   return (
-    <Table.Cell textAlign="right">
-      {user.role_id?.name === "Medico" && (
-        <Button icon negative onClick={() => showConfirm(user)}>
-          <Icon name="pencil" /> Perfil Medico
-        </Button>
-      )}
-
-      <Button icon onClick={() => updateUser(user)}>
+    <Table.Cell textAlign="center">
+      <Button icon onClick={() => updateArea(area)}>
         <Icon name="pencil" />
       </Button>
-      <Button icon negative onClick={() => showConfirm(user)}>
+      <Button icon negative onClick={() => showConfirm(area)}>
         <Icon name="trash" />
       </Button>
     </Table.Cell>

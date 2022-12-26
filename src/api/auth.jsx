@@ -1,4 +1,5 @@
 import { BASE_API } from "../util/constants";
+import { getToken } from "./token";
 
 export const LoginAPI = async (auth) => {
   try {
@@ -19,7 +20,13 @@ export const LoginAPI = async (auth) => {
 export const getMeApi = async () => {
   try {
     const url = `${BASE_API}/auth/me`;
-    const response = await fetch(url);
+    const params = {
+      method: "GET",
+      headers: {
+        jwt: getToken(),
+      },
+    };
+    const response = await fetch(url, params);
     const result = await response.json();
     return result;
   } catch (error) {

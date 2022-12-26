@@ -13,15 +13,17 @@ export const useUser = () => {
   const [error, setError] = useState(false);
   const [users, setUsers] = useState(null);
   const [userDetail, setUserDetails] = useState(null);
+  const [countUsers, setCountUsers] = useState(null);
 
   const { auth } = useAuth();
 
-  const getUsers = async () => {
+  const getUsers = async (limit, skip) => {
     try {
       setLoading(true);
-      const response = await getUsersApi(auth?.token);
-      const { data } = response;
-      setUsers(data);
+      const response = await getUsersApi(auth?.token, limit, skip);
+      const { users, count } = response;
+      setUsers(users);
+      setCountUsers(count);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -80,6 +82,7 @@ export const useUser = () => {
     error,
     users,
     userDetail,
+    countUsers,
     getUsers,
     getUser,
     getUsersDoctors,

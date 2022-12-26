@@ -13,7 +13,6 @@ import { NewDiagnostic } from "../../../pages/DoctorPages/NewDiagnostic/NewDiagn
 
 export const SideMenu = () => {
   const { auth } = useAuth();
-  console.log(auth?.user);
   const { pathname } = useLocation();
   return (
     <div className="side_menu">
@@ -85,7 +84,7 @@ export const SideMenu = () => {
           <Route path="pharmacies" element={<Farmacies />} />
           <Route path="medical" element={<Doctors />} />
           <Route path="history" element={<History />} />
-          <Route path="admin" element={<AdminDashboard />} />
+          <Route path="admin/*" element={<AdminDashboard />} />
           <Route path="atenciones" element={<MyAttentions />} />
           <Route path="nuevo-diagnostico" element={<NewDiagnostic />} />
           {/* <Route path="" element={<Orders />} />

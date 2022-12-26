@@ -1,10 +1,10 @@
 import { BASE_API } from "../util/constants";
 
-export const getAreasApi = async (token, limit, skip) => {
+export const getDiseasesApi = async (token, limit, skip) => {
   try {
-    let url = `${BASE_API}/area/`;
+    let url = `${BASE_API}/disease`;
     if (limit) {
-      url = `${BASE_API}/area?limit=${limit}&skip=${skip}`;
+      url = `${BASE_API}/disease?limit=${limit}&skip=${skip}`;
     }
     const params = {
       method: "GET",
@@ -20,9 +20,9 @@ export const getAreasApi = async (token, limit, skip) => {
   }
 };
 
-export const createAreaApi = async (token, data) => {
+export const createDiseaseApi = async (token, data) => {
   try {
-    const url = `${BASE_API}/area/`;
+    const url = `${BASE_API}/disease/`;
     const params = {
       method: "POST",
       headers: {
@@ -39,9 +39,9 @@ export const createAreaApi = async (token, data) => {
   }
 };
 
-export const updateAreaApi = async (token, id, data) => {
+export const updateDiseaseApi = async (token, id, data) => {
   try {
-    const url = `${BASE_API}/area/${id}`;
+    const url = `${BASE_API}/disease/${id}`;
     const params = {
       method: "PUT",
       headers: {
