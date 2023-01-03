@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   createPharmacyApi,
+  getOnePharmacyApi,
   getPharmaciesApi,
   getPharmaciesByMedicinesApi,
   updatePharmacyApi,
@@ -11,6 +12,7 @@ export const usePharmacy = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [pharmacies, setPharmacies] = useState(null);
+  const [currentPharmacy, setCurrentPharmacy] = useState(null);
   const [countPharmacies, setCountPharmacies] = useState(null);
 
   const { auth } = useAuth();
@@ -22,6 +24,18 @@ export const usePharmacy = () => {
       const { pharmacies, count } = response;
       setPharmacies(pharmacies);
       setCountPharmacies(count);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  const getOnePharmacy = async (id) => {
+    try {
+      setLoading(true);
+      const response = await getOnePharmacyApi(auth?.token, id);
+      setCurrentPharmacy(response);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -68,7 +82,9 @@ export const usePharmacy = () => {
     error,
     pharmacies,
     countPharmacies,
+    currentPharmacy,
     getPharmacies,
+    getOnePharmacy,
     getPharmaciesByMedicines,
     createPharmacy,
     updatePharmacy,

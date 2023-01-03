@@ -10,6 +10,8 @@ import { History } from "../../../pages/history/History";
 import { AdminDashboard } from "../../../pages/AdminDashboard/AdminDashboard";
 import { MyAttentions } from "../../../pages/DoctorPages/MyAttentions/MyAttentions";
 import { NewDiagnostic } from "../../../pages/DoctorPages/NewDiagnostic/NewDiagnostic";
+import { AdminCenter } from "../../../pages/AdminCenter/AdminCenter";
+import { AdminPharmacy } from "../../../pages/AdminPharmacy/AdminPharmacy";
 
 export const SideMenu = () => {
   const { auth } = useAuth();
@@ -47,7 +49,7 @@ export const SideMenu = () => {
             to={"/pharmadmin"}
             active={pathname === "/pharmadmin"}
           >
-            <Icon name="medkit" /> Mi farmacia
+            <Icon name="medkit" /> Administracion Farmaceutica
           </Menu.Item>
         )}
         {auth?.user?.centeradmin && (
@@ -56,7 +58,7 @@ export const SideMenu = () => {
             to={"/centeradmin"}
             active={pathname === "/centeradmin"}
           >
-            <Icon name="hospital" /> Mi centro de salud
+            <Icon name="hospital" /> Administracion Sanitaria
           </Menu.Item>
         )}
         {auth?.user?.role_id === "62d896e5c3885dab609328d4" && (
@@ -74,7 +76,7 @@ export const SideMenu = () => {
             to={"/nuevo-diagnostico"}
             active={pathname === "/nuevo-diagnostico"}
           >
-            <Icon name="hospital" /> Nuevo diagnostico
+            <Icon name="hospital" /> Consulta Medica
           </Menu.Item>
         )}
       </Menu>
@@ -87,6 +89,8 @@ export const SideMenu = () => {
           <Route path="admin/*" element={<AdminDashboard />} />
           <Route path="atenciones" element={<MyAttentions />} />
           <Route path="nuevo-diagnostico" element={<NewDiagnostic />} />
+          <Route path="centeradmin" element={<AdminCenter />} />
+          <Route path="pharmadmin" element={<AdminPharmacy />} />
           {/* <Route path="" element={<Orders />} />
             <Route path="tables/:id" element={<TableDetailsAdmin />} />
             <Route path="*" element={<Error404 />} /> */}

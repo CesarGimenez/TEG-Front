@@ -5,6 +5,7 @@ import {
   getUserApi,
   updateUserApi,
   createUserApi,
+  getUserByDNIApi,
 } from "../api/user";
 import { useAuth } from "./useAuth";
 
@@ -13,6 +14,7 @@ export const useUser = () => {
   const [error, setError] = useState(false);
   const [users, setUsers] = useState(null);
   const [userDetail, setUserDetails] = useState(null);
+  const [userByDni, setUserBydni] = useState(null);
   const [countUsers, setCountUsers] = useState(null);
 
   const { auth } = useAuth();
@@ -37,6 +39,18 @@ export const useUser = () => {
       const response = await getUserApi(auth?.token, id);
       const { userDetail } = response;
       setUserDetails(userDetail);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  const getUserByDNI = async (dni) => {
+    try {
+      setLoading(true);
+      const response = await getUserByDNIApi(auth?.token, dni);
+      setUserBydni(response);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -82,9 +96,11 @@ export const useUser = () => {
     error,
     users,
     userDetail,
+    userByDni,
     countUsers,
     getUsers,
     getUser,
+    getUserByDNI,
     getUsersDoctors,
     updateUser,
     createUser,
