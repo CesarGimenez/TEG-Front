@@ -93,6 +93,7 @@ export const SignUp = ({ handleRegister }) => {
     validationSchema: Yup.object(validationSchema(checkDoctor)),
     validateOnChange: false,
     onSubmit: async (formValue) => {
+      console.log(formValue);
       try {
         formValue.birthdate = new Date(formValue.birthdate).toISOString();
         formValue.phone = `${codeNumber}-${formValue.phone}`;
@@ -355,7 +356,7 @@ const initialValues = (checkDoctor) => {
   return {
     first_name: "",
     last_name: "",
-    dni: `V-`,
+    dni: ``,
     email: "",
     password: "",
     confirmpassword: "",
@@ -367,8 +368,6 @@ const initialValues = (checkDoctor) => {
     secret_word: "",
     blood_group: "",
     parent_phone: "",
-    centeradmin: "",
-    pharmacyadmin: "",
     gender: "",
     birthdate: "",
   };
@@ -392,10 +391,7 @@ const validationSchema = (checkDoctor) => {
       .required(true),
     dni: Yup.string()
       .trim()
-      .matches(
-        /^[a-z]{1}-[0-9]{7,}?$/i,
-        "Formato invalido para DNI, Ejemplo: V-1111111"
-      )
+      .matches(/^[0-9]{7,}?$/i, "Formato invalido para DNI, Ejemplo: 1111111")
       .required(true),
     email: Yup.string().trim().email("No es un email valido").required(true),
     password: Yup.string()

@@ -17,9 +17,11 @@ import { ModalBasic } from "../../components/modals/ModalBasic";
 import { AddEditCenterForm } from "../../components/forms/centers/AddEditCenterForm";
 import { AddDoctorToCenter } from "../../components/forms/centers/AddDoctorToCenter";
 import "./AdminCenter.scss";
+import { Navigate } from "react-router-dom";
 
 export const AdminCenter = () => {
   const { auth } = useAuth();
+  if (!auth?.user?.is_Admin) return <Navigate to="/" replace />;
   const { loading, getOneCenter, currentCenter, updateCenter } = useCenter();
 
   const [showModal, setShowModal] = useState(false);
@@ -70,7 +72,7 @@ export const AdminCenter = () => {
   };
 
   useEffect(() => {
-    getOneCenter(center._id);
+    getOneCenter(center?._id);
   }, [refetch]);
   return (
     <div>

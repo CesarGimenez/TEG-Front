@@ -10,6 +10,7 @@ import { History } from "../../../pages/history/History";
 import { AdminDashboard } from "../../../pages/AdminDashboard/AdminDashboard";
 import { MyAttentions } from "../../../pages/DoctorPages/MyAttentions/MyAttentions";
 import { NewDiagnostic } from "../../../pages/DoctorPages/NewDiagnostic/NewDiagnostic";
+import { UserHistory } from "../../../pages/DoctorPages/userHistory/userHistory";
 import { AdminCenter } from "../../../pages/AdminCenter/AdminCenter";
 import { AdminPharmacy } from "../../../pages/AdminPharmacy/AdminPharmacy";
 
@@ -23,9 +24,9 @@ export const SideMenu = () => {
           <Icon name="home" /> Mis datos
         </Menu.Item>
 
-        <Menu.Item as={Link} to={"/history"} active={pathname === "/history"}>
+        {/* <Menu.Item as={Link} to={"/history"} active={pathname === "/history"}>
           <Icon name="history" /> Mi historial Medico
-        </Menu.Item>
+        </Menu.Item> */}
 
         <Menu.Item
           as={Link}
@@ -70,13 +71,13 @@ export const SideMenu = () => {
             <Icon name="hospital" /> Mis atenciones
           </Menu.Item>
         )}
-        {auth?.user?.role_id === "62d896e5c3885dab609328d4" && (
+        {auth?.user?.role_id?._id === "62d896e5c3885dab609328d4" && (
           <Menu.Item
             as={Link}
             to={"/nuevo-diagnostico"}
             active={pathname === "/nuevo-diagnostico"}
           >
-            <Icon name="hospital" /> Consulta Medica
+            <Icon name="hospital" /> Generar consulta
           </Menu.Item>
         )}
       </Menu>
@@ -85,10 +86,11 @@ export const SideMenu = () => {
           <Route path="/" element={<UserProfile />} />
           <Route path="pharmacies" element={<Farmacies />} />
           <Route path="medical" element={<Doctors />} />
-          <Route path="history" element={<History />} />
+          <Route path="history" element={<UserHistory />} />
           <Route path="admin/*" element={<AdminDashboard />} />
           <Route path="atenciones" element={<MyAttentions />} />
           <Route path="nuevo-diagnostico" element={<NewDiagnostic />} />
+          <Route path="user-history/:id" element={<UserHistory />} />
           <Route path="centeradmin" element={<AdminCenter />} />
           <Route path="pharmadmin" element={<AdminPharmacy />} />
           {/* <Route path="" element={<Orders />} />

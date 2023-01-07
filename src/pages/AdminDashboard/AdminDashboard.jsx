@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Link,
+  Navigate,
   Route,
   Routes,
   useLocation,
@@ -19,9 +20,7 @@ import { AreasTable } from "./areas/AreasTable";
 export const AdminDashboard = () => {
   const { auth } = useAuth();
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-  console.log(auth);
-  if (!auth.user?.is_Admin) navigate(-1);
+  if (!auth?.user?.is_Admin) return <Navigate to="/" replace />;
   return (
     <div>
       <Card fluid centered>

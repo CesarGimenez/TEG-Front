@@ -55,6 +55,24 @@ export const getUserByDNIApi = async (token, dni) => {
   }
 };
 
+export const getUserByQueryApi = async (token, query) => {
+  try {
+    const { first_name, last_name, dni } = query;
+    const url = `${BASE_API}/user/query?first_name=${first_name}&last_name=${last_name}&dni=${dni}`;
+    const params = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updateUserApi = async (token, id, data) => {
   try {
     const url = `${BASE_API}/user/${id}`;

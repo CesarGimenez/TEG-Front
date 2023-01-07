@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   createCenterApi,
   getCentersApi,
+  getCentersByDoctorApi,
   getOneCenterApi,
   updateCenterApi,
 } from "../api/centers";
@@ -23,6 +24,18 @@ export const useCenter = () => {
       const { healthcenters, count } = response;
       setCenters(healthcenters);
       setCountCenters(count);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  const getCentersByDoctor = async (id) => {
+    try {
+      setLoading(true);
+      const response = await getCentersByDoctorApi(auth?.token, id);
+      setCenters(response);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -72,6 +85,7 @@ export const useCenter = () => {
     countCenters,
     currentCenter,
     getCenters,
+    getCentersByDoctor,
     getOneCenter,
     createCenter,
     updateCenter,

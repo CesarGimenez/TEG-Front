@@ -16,9 +16,11 @@ import { HeaderPage } from "../AdminDashboard/Header";
 import { AddEditPharmacyForm } from "../../components/forms/pharmacies/AddEditPharmacyForm";
 import { AddMedicineToPharmacy } from "../../components/forms/pharmacies/AddMedicineToPharmacy";
 import { toast } from "react-toastify";
+import { Navigate } from "react-router-dom";
 
 export const AdminPharmacy = () => {
   const { auth } = useAuth();
+  if (!auth?.user?.is_Admin) return <Navigate to="/" replace />;
   const { loading, currentPharmacy, getOnePharmacy, updatePharmacy } =
     usePharmacy();
   const pharma = auth.user.pharmacyadmin;

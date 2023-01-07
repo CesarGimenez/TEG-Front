@@ -6,8 +6,6 @@ import { useAuth } from "../../hooks/useAuth";
 import { AddEditFamily } from "./AddEditFamily";
 import { EditUserProfile } from "./EditUserProfile";
 import { useEffect } from "react";
-import { getToken } from "../../api/token";
-import { getMeApi } from "../../api/auth";
 import { useUser } from "../../hooks/useUser";
 
 import "./UserProfile.scss";
