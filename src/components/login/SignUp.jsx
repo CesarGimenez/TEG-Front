@@ -93,10 +93,10 @@ export const SignUp = ({ handleRegister }) => {
     validationSchema: Yup.object(validationSchema(checkDoctor)),
     validateOnChange: false,
     onSubmit: async (formValue) => {
-      console.log(formValue);
       try {
         formValue.birthdate = new Date(formValue.birthdate).toISOString();
         formValue.phone = `${codeNumber}-${formValue.phone}`;
+        formValue.is_doctor = checkDoctor ? true : false;
         const res = await createUser(formValue);
         if (res?.error) {
           toast.error(res?.error);

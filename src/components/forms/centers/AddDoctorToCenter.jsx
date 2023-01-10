@@ -28,7 +28,7 @@ export const AddDoctorToCenter = ({ closeModal, onRefetch, center }) => {
         />
         <Button onClick={() => getUserByDNI(dni)}>Buscar</Button>
       </Form>
-      {userByDni && (
+      {userByDni && userByDni?.is_doctor && (
         <div
           style={{
             display: "flex",
@@ -76,7 +76,9 @@ export const AddDoctorToCenter = ({ closeModal, onRefetch, center }) => {
           padding: 20,
         }}
       >
-        {!userByDni ? null : doctors.includes(userByDni?._id) ? (
+        {!userByDni || !userByDni?.is_doctor ? (
+          <Button disabled>El usuario no existe o no es medico</Button>
+        ) : doctors.includes(userByDni?._id) ? (
           <Button disabled>Ya esta registrado en el centro</Button>
         ) : (
           <Button onClick={() => addDoctor()}>Agregar al centro</Button>

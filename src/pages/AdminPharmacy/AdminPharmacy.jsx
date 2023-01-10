@@ -20,7 +20,7 @@ import { Navigate } from "react-router-dom";
 
 export const AdminPharmacy = () => {
   const { auth } = useAuth();
-  if (!auth?.user?.is_Admin) return <Navigate to="/" replace />;
+  if (!auth?.user?.pharmacyadmin) return <Navigate to="/" replace />;
   const { loading, currentPharmacy, getOnePharmacy, updatePharmacy } =
     usePharmacy();
   const pharma = auth.user.pharmacyadmin;

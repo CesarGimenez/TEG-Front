@@ -11,6 +11,7 @@ export const uploadImageApi = async (data) => {
     };
     const response = await fetch(url, params);
     const result = await response.json();
+    console.log(response);
     return result;
   } catch (error) {
     throw error;

@@ -73,9 +73,48 @@ export const getUserByQueryApi = async (token, query) => {
   }
 };
 
+export const getUsersByAreaApi = async (token, data) => {
+  try {
+    const url = `${BASE_API}/user/area`;
+    const params = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    console.log(data);
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updateUserApi = async (token, id, data) => {
   try {
     const url = `${BASE_API}/user/${id}`;
+    const params = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updatePasswordApi = async (token, id, data) => {
+  try {
+    const url = `${BASE_API}/user/changepass/${id}`;
     const params = {
       method: "PUT",
       headers: {

@@ -62,7 +62,8 @@ export const SideMenu = () => {
             <Icon name="hospital" /> Administracion Sanitaria
           </Menu.Item>
         )}
-        {auth?.user?.role_id === "62d896e5c3885dab609328d4" && (
+        {(auth?.user?.role_id === "62d896e5c3885dab609328d4" ||
+          auth?.user?.is_doctor) && (
           <Menu.Item
             as={Link}
             to={"/atenciones"}
@@ -71,7 +72,8 @@ export const SideMenu = () => {
             <Icon name="hospital" /> Mis atenciones
           </Menu.Item>
         )}
-        {auth?.user?.role_id?._id === "62d896e5c3885dab609328d4" && (
+        {(auth?.user?.role_id?._id === "62d896e5c3885dab609328d4" ||
+          auth?.user?.is_doctor) && (
           <Menu.Item
             as={Link}
             to={"/nuevo-diagnostico"}

@@ -40,8 +40,6 @@ export const Farmacies = () => {
     setModeList((prev) => !prev);
   };
 
-  console.log(medicines);
-
   const setMedicinesListOnChange = (e, { value }) => {
     setSearchMedicines({ value });
   };

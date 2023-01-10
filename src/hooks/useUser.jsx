@@ -7,6 +7,8 @@ import {
   createUserApi,
   getUserByDNIApi,
   getUserByQueryApi,
+  updatePasswordApi,
+  getUsersByAreaApi,
 } from "../api/user";
 import { useAuth } from "./useAuth";
 
@@ -72,11 +74,33 @@ export const useUser = () => {
     }
   };
 
+  const getUsersByArea = async (query) => {
+    try {
+      setLoading(true);
+      const response = await getUsersByAreaApi(auth?.token, query);
+      setUsers(response);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
   const updateUser = async (id, data) => {
     try {
       setLoading(true);
       const response = await updateUserApi(auth?.token, id, data);
       setLoading(false);
+      return response;
+    } catch (error) {}
+  };
+
+  const updatePassword = async (id, data) => {
+    try {
+      setLoading(true);
+      const response = await updatePasswordApi(auth?.token, id, data);
+      setLoading(false);
+      return response;
     } catch (error) {}
   };
 
@@ -118,7 +142,9 @@ export const useUser = () => {
     getUserByDNI,
     getUsersByQuery,
     getUsersDoctors,
+    getUsersByArea,
     updateUser,
     createUser,
+    updatePassword,
   };
 };

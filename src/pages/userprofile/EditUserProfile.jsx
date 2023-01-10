@@ -21,10 +21,16 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (formValue) => {
-      await updateUser(user?._id, formValue);
-      onRefetch();
-      openCloseModal();
-      toast.success("Se ha cambiado la informacion del usuario");
+      console.log(formValue);
+      const updated = await updateUser(user?._id, formValue);
+      console.log(updated);
+      if (updated) {
+        onRefetch();
+        openCloseModal();
+        toast.success("Se ha cambiado la informacion del usuario");
+      } else {
+        toast.error("Ocurrio un error al actualizar informacion del usuario");
+      }
     },
   });
   const uploadImage = async () => {
@@ -37,10 +43,11 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
     setPreviewImage(secure_url);
     onRefetch();
     toast.success("Se ha cambiado la imagen");
+    formik.setFieldValue("image", secure_url);
   };
   const onDrop = useCallback(async (acceptedFile) => {
     const file = acceptedFile[0];
-    await formik.setFieldValue("image", file);
+    formik.setFieldValue("image", file);
     setPreviewImage(URL.createObjectURL(file));
   }, []);
 
@@ -134,7 +141,9 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 options={optionsGender}
                 name="gender"
                 value={formik.values.gender}
-                onChange={formik.handleChange}
+                onChange={(e, { value }) =>
+                  formik.setFieldValue("gender", value)
+                }
               />
             </Grid.Column>
             <Grid.Column>

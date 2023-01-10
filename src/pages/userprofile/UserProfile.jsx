@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import { useUser } from "../../hooks/useUser";
 
 import "./UserProfile.scss";
+import { EditMedicProfileUser } from "./EditMedicProfileUser";
+import { EditUserPassword } from "./EditUserPassword";
 
 export const UserProfile = () => {
   const { auth } = useAuth();
@@ -37,6 +39,32 @@ export const UserProfile = () => {
     openCloseModal();
   };
 
+  const openUserMedicModal = (user) => {
+    setTitleModal(`Tu perfil Medico`);
+    setContentModal(
+      <EditMedicProfileUser
+        user={user}
+        onRefetch={onRefetch}
+        openCloseModal={openCloseModal}
+      />
+    );
+
+    openCloseModal();
+  };
+
+  const openChangePassword = (user) => {
+    setTitleModal(`Cambio de contrase;a`);
+    setContentModal(
+      <EditUserPassword
+        user={user}
+        onRefetch={onRefetch}
+        openCloseModal={openCloseModal}
+      />
+    );
+
+    openCloseModal();
+  };
+
   const openFamiliariesModal = (data) => {
     setTitleModal(`Agregar familiar`);
     setContentModal(<AddEditFamily />);
@@ -55,20 +83,44 @@ export const UserProfile = () => {
           <Header as="h1" color="blue">
             Hola de nuevo, {userDetail?.first_name} {userDetail?.last_name}
           </Header>
-          <Button
-            onClick={() => openUserModal(userDetail)}
-            className="btn__profile"
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            {" "}
-            Editar perfil{" "}
-          </Button>
+            <Button
+              onClick={() => openUserModal(userDetail)}
+              className="btn__profile"
+            >
+              {" "}
+              Editar perfil{" "}
+            </Button>
+            <Button
+              className="btn__profile"
+              onClick={() => openChangePassword(userDetail)}
+            >
+              {" "}
+              Cambiar contraseña
+            </Button>
+            {(auth?.user?.role_id?.name === "Medico" ||
+              auth?.user?.is_doctor) && (
+              <Button
+                className="btn__profile"
+                onClick={() => openUserMedicModal(userDetail)}
+              >
+                {" "}
+                Editar perfil Medico
+              </Button>
+            )}
+          </div>
         </div>
         <div className="user_home">
           <Image
             src={
-              user?.image
-                ? userDetail?.image
-                : "https://react.semantic-ui.com/images/wireframe/square-image.png"
+              userDetail?.image ||
+              "https://react.semantic-ui.com/images/wireframe/square-image.png"
             }
             size="medium"
             circular

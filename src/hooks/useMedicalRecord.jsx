@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   getMedicalRecordByPatientApi,
   getMedicalRecordsApi,
+  updateMedicalRecordApi,
 } from "../api/medicalrecord";
 import { useAuth } from "./useAuth";
 
@@ -40,6 +41,18 @@ export const useMedicalRecord = () => {
     }
   };
 
+  const updateMedicalRecord = async (id, data) => {
+    try {
+      setLoading(true);
+      const response = await updateMedicalRecordApi(auth?.token, id, data);
+      return response;
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
   return {
     loading,
     error,
@@ -48,5 +61,6 @@ export const useMedicalRecord = () => {
     medicalRecords,
     getMedicalRecordByPatient,
     getMedicalRecords,
+    updateMedicalRecord,
   };
 };

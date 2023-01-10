@@ -18,6 +18,7 @@ import { RequestUserHistory } from "../userHistory/requestUserHistory";
 import { DetailHistory } from "./DetailHistory";
 import { CreateNewDiagnosis } from "./forms/CreateNewDiagnosis";
 import { UploadDocument } from "./forms/UploadDocument";
+import { DetailDiagnosys } from "./DetailDiagnosys";
 
 export const UserHistory = () => {
   const params = useParams();
@@ -28,10 +29,11 @@ export const UserHistory = () => {
   const [titleModal, setTitleModal] = useState(null);
   const [contentModal, setContentModal] = useState(false);
 
-  const [validate, setValidate] = useState(null);
+  const [refetch, setRefetch] = useState(false);
+  const [validate, setValidate] = useState(false);
 
   const onValidate = () => setValidate((prev) => !prev);
-
+  const onRefetch = () => setRefetch((prev) => !prev);
   const openCloseModal = () => setShowModal((prev) => !prev);
 
   const requestPermissionMedicalRecord = () => {
@@ -48,13 +50,31 @@ export const UserHistory = () => {
 
   const addNewDiagnosis = () => {
     setTitleModal("Creacion de nuevo diagnostico");
-    setContentModal(<CreateNewDiagnosis patient={userDetail} />);
+    setContentModal(
+      <CreateNewDiagnosis
+        patient={userDetail}
+        onClose={openCloseModal}
+        onRefetch={onRefetch}
+      />
+    );
     openCloseModal();
   };
 
   const addNewDocument = () => {
     setTitleModal("Subida de nuevo documento");
-    setContentModal(<UploadDocument patient={userDetail} />);
+    setContentModal(
+      <UploadDocument
+        patient={userDetail}
+        onClose={openCloseModal}
+        onRefetch={onRefetch}
+      />
+    );
+    openCloseModal();
+  };
+
+  const showDetailDiagnosys = (diagnosys) => {
+    setTitleModal("Detalle de diagnostico medico");
+    setContentModal(<DetailDiagnosys diagnosys={diagnosys} />);
     openCloseModal();
   };
 
@@ -167,6 +187,8 @@ export const UserHistory = () => {
                 patient={userDetail}
                 addNewDiagnosis={addNewDiagnosis}
                 addNewDocument={addNewDocument}
+                refetch={refetch}
+                showDetailDiagnosys={showDetailDiagnosys}
               />
             </>
           )}

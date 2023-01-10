@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { getDiagnosysByPatientApi } from "../api/diagnosys";
+import {
+  createDiagnosysApi,
+  getDiagnosysByDoctorApi,
+  getDiagnosysByPatientApi,
+} from "../api/diagnosys";
 import { useAuth } from "./useAuth";
 
 export const useDiagnosis = () => {
@@ -21,21 +25,36 @@ export const useDiagnosis = () => {
     }
   };
 
-  //   const createDiagnosis = async (data) => {
-  //     try {
-  //       setLoading(true);
-  //       await createCenterApi(auth?.token, data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       setLoading(false);
-  //       setError(error);
-  //     }
-  //   };
+  const getDiagnosisByDoctor = async (id) => {
+    try {
+      setLoading(true);
+      const response = await getDiagnosysByDoctorApi(auth?.token, id);
+      setDiagnosis(response);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  const createDiagnosis = async (data) => {
+    try {
+      setLoading(true);
+      const diagnosis = await createDiagnosysApi(auth?.token, data);
+      setLoading(false);
+      return diagnosis;
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
 
   return {
     loading,
     error,
     diagnosis,
     getDiagnosisByPatient,
+    getDiagnosisByDoctor,
+    createDiagnosis,
   };
 };

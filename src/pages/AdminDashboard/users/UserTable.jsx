@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Button, Icon, Loader, Pagination, Table } from "semantic-ui-react";
+import {
+  Button,
+  Grid,
+  Icon,
+  Loader,
+  Pagination,
+  Table,
+} from "semantic-ui-react";
 import { map } from "lodash";
 import { useUser } from "../../../hooks/useUser";
 import { ModalBasic } from "../../../components/modals/ModalBasic";
 import { ConfirmBasic } from "../../../components/modals/ConfirmBasic";
 import { AddEditUserForm } from "../../../components/forms/users/AddEditUserForm";
 import { HeaderPage } from "../Header";
+import { EditMedicProfileUser } from "../../../components/forms/users/EditMedicProfileUser";
+import { EditCenterUser } from "../../../components/forms/users/EditCenterUser";
+import { EditPharmacyUser } from "../../../components/forms/users/EditPharmacyUser";
 
 export const UserTable = () => {
   const { loading, users, getUsers, countUsers } = useUser();
@@ -48,6 +58,44 @@ export const UserTable = () => {
     openCloseModal();
   };
 
+  const updateMedicProfile = (data) => {
+    setTitleModal("Actualizar perfil medico");
+    setContentModal(
+      <EditMedicProfileUser
+        closeModal={openCloseModal}
+        onRefetch={onRefetch}
+        user={data}
+      />
+    );
+    openCloseModal();
+  };
+
+  const updatePharmacyProfile = (data) => {
+    setTitleModal("Asignar Farmacia");
+    setContentModal(
+      <EditPharmacyUser
+        closeModal={openCloseModal}
+        onRefetch={onRefetch}
+        user={data}
+      />
+    );
+
+    openCloseModal();
+  };
+
+  const updateCenterProfile = (data) => {
+    setTitleModal("Asignar centro de salud");
+    setContentModal(
+      <EditCenterUser
+        closeModal={openCloseModal}
+        onRefetch={onRefetch}
+        user={data}
+      />
+    );
+
+    openCloseModal();
+  };
+
   const showConfirm = (data) => {
     setTitleConfirm(`Esta seguro de eliminar al usuario ${data?.email}?`);
     setConfirmState(true);
@@ -74,8 +122,8 @@ export const UserTable = () => {
                 <Table.HeaderCell>Apellido</Table.HeaderCell>
                 <Table.HeaderCell>DNI</Table.HeaderCell>
                 <Table.HeaderCell>Activo</Table.HeaderCell>
-                <Table.HeaderCell>Admin</Table.HeaderCell>
-                <Table.HeaderCell>Medico</Table.HeaderCell>
+                <Table.HeaderCell>SuperAdmin</Table.HeaderCell>
+                <Table.HeaderCell>Medico Verificado</Table.HeaderCell>
                 <Table.HeaderCell>Acciones</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -102,7 +150,7 @@ export const UserTable = () => {
                     )}
                   </Table.Cell>
                   <Table.Cell>
-                    {user?.role_id?.name === "Medico" ? (
+                    {user?.is_verified ? (
                       <Icon name="check" />
                     ) : (
                       <Icon name="close" />
@@ -113,6 +161,9 @@ export const UserTable = () => {
                     user={user}
                     updateUser={updateUser}
                     showConfirm={showConfirm}
+                    updateMedicProfile={updateMedicProfile}
+                    updateCenterProfile={updateCenterProfile}
+                    updatePharmacyProfile={updatePharmacyProfile}
                   />
                 </Table.Row>
               ))}
@@ -157,11 +208,26 @@ export const UserTable = () => {
   );
 };
 
-const Actions = ({ user, updateUser, showConfirm }) => {
+const Actions = ({
+  user,
+  updateUser,
+  showConfirm,
+  updateMedicProfile,
+  updateCenterProfile,
+  updatePharmacyProfile,
+}) => {
   return (
     <Table.Cell textAlign="right">
+      <Button icon negative onClick={() => updatePharmacyProfile(user)}>
+        <Icon name="pencil" />{" "}
+        {user?.pharmacyadmin ? "Cambiar farmacia" : "Vincular Farmacia"}
+      </Button>
+      <Button icon negative onClick={() => updateCenterProfile(user)}>
+        <Icon name="pencil" />{" "}
+        {user?.centeradmin ? "Cambiar centro" : "Vincular centro"}
+      </Button>
       {user.role_id?.name === "Medico" && (
-        <Button icon negative onClick={() => showConfirm(user)}>
+        <Button icon negative onClick={() => updateMedicProfile(user)}>
           <Icon name="pencil" /> Perfil Medico
         </Button>
       )}
