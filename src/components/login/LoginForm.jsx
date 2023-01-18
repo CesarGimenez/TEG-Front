@@ -4,6 +4,7 @@ import {
   Form,
   Grid,
   Header,
+  Image,
   Message,
   Segment,
 } from "semantic-ui-react";
@@ -39,6 +40,13 @@ export const LoginForm = ({ handleRegister }) => {
   return (
     <Grid textAlign="center" verticalAlign="middle">
       <Grid.Column style={{ width: 500 }}>
+        <Image
+          size="small"
+          src={
+            "https://res.cloudinary.com/dl57f2zr5/image/upload/v1674012358/LOGO_MEDICPASS-04_kvkjig.png"
+          }
+          verticalAlign="middle"
+        />
         <Header as="h2" textAlign="center">
           Ingresa con tu cuenta
         </Header>
