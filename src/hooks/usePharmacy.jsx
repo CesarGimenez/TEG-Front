@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   createPharmacyApi,
+  deletePharmacyApi,
   getOnePharmacyApi,
   getPharmaciesApi,
   getPharmaciesByMedicinesApi,
@@ -77,6 +78,18 @@ export const usePharmacy = () => {
     }
   };
 
+  const deletePharmacy = async (id) => {
+    try {
+      setLoading(true);
+      const response = await deletePharmacyApi(auth?.token, id);
+      setLoading(false);
+      return response;
+    } catch (error) {
+      setError(error);
+      throw error;
+    }
+  };
+
   return {
     loading,
     error,
@@ -88,5 +101,6 @@ export const usePharmacy = () => {
     getPharmaciesByMedicines,
     createPharmacy,
     updatePharmacy,
+    deletePharmacy,
   };
 };

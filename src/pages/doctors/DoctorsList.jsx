@@ -38,7 +38,7 @@ export const DoctorsList = ({ doctors, showInfoContact }) => {
             {/* <p as="h4">Numero de telefono: {pharmacy?.phones}</p>
                 <p as="h4">Horario de atencion: {pharmacy?.hours}</p> */}
             <Button onClick={() => showInfoContact(doc)}>
-              Informacion de contacto
+              Información de contacto
             </Button>
           </Card>
         );

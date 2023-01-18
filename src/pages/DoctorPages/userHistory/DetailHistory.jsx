@@ -18,6 +18,7 @@ import { HeaderPage } from "../../AdminDashboard/Header";
 import { useMedicalRecord } from "../../../hooks/useMedicalRecord";
 import { useAuth } from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
+import { useAttachment } from "../../../hooks/useAttachment";
 
 export const DetailHistory = ({
   medicalRecordDetail,
@@ -28,6 +29,7 @@ export const DetailHistory = ({
   showDetailDiagnosys,
 }) => {
   const { loading, diagnosis, getDiagnosisByPatient } = useDiagnosis();
+  const { docs, getDocsByPatient } = useAttachment();
   const { updateMedicalRecord } = useMedicalRecord();
   const { auth } = useAuth();
 
@@ -49,12 +51,13 @@ export const DetailHistory = ({
 
   useEffect(() => {
     getDiagnosisByPatient(patient?._id);
+    getDocsByPatient(patient?._id);
   }, [refetch]);
 
   return (
     <div>
       <div style={{ marginTop: 20, marginBottom: 30 }}>
-        <Header as="h3">Historia medica</Header>
+        <Header as="h3">Historia médica</Header>
       </div>
       <div>
         <div>
@@ -62,10 +65,10 @@ export const DetailHistory = ({
             <Grid>
               <Grid.Row>
                 <Grid.Column>
-                  <Label size="large">Antescedentes generales</Label>
+                  <Label size="large">Antecedentes generales</Label>
                   <TextArea
                     style={{ minHeight: 100 }}
-                    placeholder="Antescedentes generales.."
+                    placeholder="Antecedentes generales.."
                     onChange={formik.handleChange}
                     name="general"
                     value={formik.values.general}
@@ -74,10 +77,10 @@ export const DetailHistory = ({
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
-                  <Label size="large">Antescedentes personales</Label>
+                  <Label size="large">Antecedentes personales</Label>
                   <TextArea
                     style={{ minHeight: 100 }}
-                    placeholder="Antescedentes personales.."
+                    placeholder="Antecedentes personales.."
                     onChange={formik.handleChange}
                     name="personal_history"
                     value={formik.values.personal_history}
@@ -86,10 +89,10 @@ export const DetailHistory = ({
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
-                  <Label size="large">Antescedentes familiares</Label>
+                  <Label size="large">Antecedentes familiares</Label>
                   <TextArea
                     style={{ minHeight: 100 }}
-                    placeholder="Antescedentes familiares.."
+                    placeholder="Antecedentes familiares.."
                     onChange={formik.handleChange}
                     name="family_history"
                     value={formik.values.family_history}
@@ -100,11 +103,11 @@ export const DetailHistory = ({
                 <Grid.Row>
                   <Grid.Column>
                     <Label size="large">
-                      Antescedentes ginecologicos-ginecobstetricos
+                      Antecedentes ginecológicos-ginecobstetricos{" "}
                     </Label>
                     <TextArea
                       style={{ minHeight: 100 }}
-                      placeholder="Antescedentes ginecologicos-ginecobstetricos.."
+                      placeholder="Antecedentes ginecológicos-ginecobstetricos.."
                       onChange={formik.handleChange}
                       name="gynecologic_history"
                       value={formik.values.gynecologic_history}
@@ -115,10 +118,10 @@ export const DetailHistory = ({
 
               <Grid.Row>
                 <Grid.Column>
-                  <Label size="large">Antescedentes quirurgicos</Label>
+                  <Label size="large">Antecedentes quirúrgicos</Label>
                   <TextArea
                     style={{ minHeight: 100 }}
-                    placeholder="Antescedentes quirurgicos.."
+                    placeholder="Antecedentes quirúrgicos.."
                     onChange={formik.handleChange}
                     name="surgical_history"
                     value={formik.values.surgical_history}
@@ -207,9 +210,9 @@ export const DetailHistory = ({
         <Table.Row>
           <Table.HeaderCell>Fecha</Table.HeaderCell>
           <Table.HeaderCell>Atendido por</Table.HeaderCell>
-          <Table.HeaderCell>Lugar de atencion</Table.HeaderCell>
-          <Table.HeaderCell>Tipo de diagnostico</Table.HeaderCell>
-          <Table.HeaderCell>Informacion detallada</Table.HeaderCell>
+          <Table.HeaderCell>Lugar de atención</Table.HeaderCell>
+          <Table.HeaderCell>Tipo de diagnóstico</Table.HeaderCell>
+          <Table.HeaderCell>Información detallada</Table.HeaderCell>
         </Table.Row>
         {diagnosis && (
           <Table.Body>
@@ -246,10 +249,36 @@ export const DetailHistory = ({
       <Table>
         <Table.Row>
           <Table.HeaderCell>Fecha</Table.HeaderCell>
-          <Table.HeaderCell>Descripcion</Table.HeaderCell>
+          <Table.HeaderCell>Subido por</Table.HeaderCell>
+          <Table.HeaderCell>Descripción</Table.HeaderCell>
           <Table.HeaderCell>Tipo de archivo</Table.HeaderCell>
           <Table.HeaderCell>Ver/Descargar</Table.HeaderCell>
         </Table.Row>
+        {docs && (
+          <Table.Body>
+            {map(docs, (d, index) => (
+              <Table.Row key={index}>
+                <Table.Cell>
+                  {moment(d?.createdAt).format("DD/MM/yyyy hh:mm")}
+                </Table.Cell>
+                <Table.Cell style={{ maxWidth: 300 }}>
+                  {d?.uploaded_by?.first_name || "Sin detalles"}{" "}
+                  {d?.uploaded_by?.last_name || "Sin detalles"}
+                </Table.Cell>
+                <Table.Cell style={{ maxWidth: 300 }}>
+                  {d?.description || "Sin detalles"}
+                </Table.Cell>
+                <Table.Cell>{d?.type}</Table.Cell>
+                <Table.Cell>
+                  <Button
+                    content="Ver/Descargar"
+                    onClick={() => window.open(d?.url_doc)}
+                  />
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        )}
       </Table>
     </div>
   );
@@ -257,15 +286,15 @@ export const DetailHistory = ({
 
 const initialValues = (data) => {
   return {
-    general: data?.general || "Sin informacion",
-    current_illness: data?.current_illness || "Sin informacion",
-    personal_history: data?.personal_history || "Sin informacion",
-    family_history: data?.family_history || "Sin informacion",
-    surgical_history: data?.surgical_history || "Sin informacion",
-    immunizations: data?.immunizations || "Sin informacion",
-    gynecologic_history: data?.gynecologic_history || "Sin informacion",
-    treatment: data?.treatment || "Sin informacion",
-    therapeutic_plan: data?.therapeutic_plan || "Sin informacion",
+    general: data?.general || "Sin información",
+    current_illness: data?.current_illness || "Sin información",
+    personal_history: data?.personal_history || "Sin información",
+    family_history: data?.family_history || "Sin información",
+    surgical_history: data?.surgical_history || "Sin información",
+    immunizations: data?.immunizations || "Sin información",
+    gynecologic_history: data?.gynecologic_history || "Sin información",
+    treatment: data?.treatment || "Sin información",
+    therapeutic_plan: data?.therapeutic_plan || "Sin información",
   };
 };
 

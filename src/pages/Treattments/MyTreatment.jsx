@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Header, Loader, Table } from "semantic-ui-react";
 import { map } from "lodash";
 import moment from "moment";
-import { useAuth } from "../../../hooks/useAuth";
-import { useDiagnosis } from "../../../hooks/useDiagnosys";
-import { ModalBasic } from "../../../components/modals/ModalBasic";
-import { DetailDiagnosys } from "../userHistory/DetailDiagnosys";
+import { useAuth } from "../../hooks/useAuth";
+import { useDiagnosis } from "../../hooks/useDiagnosys";
+import { ModalBasic } from "../../components/modals/ModalBasic";
+import { DetailDiagnosysPatient } from "./DetailDiagnosysPatient";
 
-export const MyAttentions = () => {
-  const { diagnosis, getDiagnosisByDoctor, loading } = useDiagnosis();
+export const MyTreatment = () => {
+  const { diagnosis, getDiagnosisByPatient, loading } = useDiagnosis();
   const { auth } = useAuth();
 
   const [showModal, setShowModal] = useState(false);
@@ -16,27 +16,27 @@ export const MyAttentions = () => {
   const [contentModal, setContentModal] = useState(false);
 
   useEffect(() => {
-    getDiagnosisByDoctor(auth?.user?._id);
+    getDiagnosisByPatient(auth?.user?._id);
   }, []);
 
   const openCloseModal = () => setShowModal((prev) => !prev);
 
   const showDetailDiagnosys = (diagnosys) => {
-    setTitleModal("Detalle de diagnostico medico");
-    setContentModal(<DetailDiagnosys diagnosys={diagnosys} />);
+    setTitleModal("Detalle de diagnóstico médico");
+    setContentModal(<DetailDiagnosysPatient diagnosys={diagnosys} />);
     openCloseModal();
   };
-
   return (
     <>
       <Card fluid centered>
-        <Header as="h1">Historial de atenciones</Header>
+        <Header as="h1">Historial tratamientos</Header>
         {loading ? (
           <Loader>Cargando</Loader>
         ) : (
           <Table>
             <Table.Header>
               <Table.HeaderCell>Fecha</Table.HeaderCell>
+              <Table.HeaderCell>Médico</Table.HeaderCell>
               <Table.HeaderCell>Paciente</Table.HeaderCell>
               <Table.HeaderCell>Edad</Table.HeaderCell>
               <Table.HeaderCell>Sexo</Table.HeaderCell>
@@ -49,6 +49,9 @@ export const MyAttentions = () => {
                 <Table.Row key={index}>
                   <Table.Cell>
                     {moment(d?.createdAt).format("DD/MM/yyyy hh:mm")}
+                  </Table.Cell>
+                  <Table.Cell style={{ maxWidth: 300 }}>
+                    {d?.doctor?.first_name} {d?.doctor?.last_name}
                   </Table.Cell>
                   <Table.Cell style={{ maxWidth: 300 }}>
                     {d?.patient?.first_name} {d?.patient?.last_name}

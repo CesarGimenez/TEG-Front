@@ -80,13 +80,13 @@ export const AdminPharmacy = () => {
         ) : (
           <>
             <HeaderPage
-              titlePage={`Informacion de Farmacia: ${currentPharmacy?.name}`}
+              titlePage={`Información de Farmacia: ${currentPharmacy?.name}`}
               btnTitle="Editar informacion"
               btnClick={() => updatePharmaInfo(currentPharmacy)}
             />{" "}
             <Label size="big">Nombre: {currentPharmacy?.name}</Label>
-            <Label size="big">Direccion: {currentPharmacy?.address}</Label>
-            <Label size="big">Telefono: {currentPharmacy?.phones}</Label>
+            <Label size="big">Dirección: {currentPharmacy?.address}</Label>
+            <Label size="big">Teléfono: {currentPharmacy?.phones}</Label>
             {/* <Label size="big">
           Accesibilidad: {currentCenter?.is_public ? "Publica" : "Privada"}
         </Label> */}

@@ -6,20 +6,33 @@ import { AddEditPharmacyForm } from "../../../components/forms/pharmacies/AddEdi
 import { ModalBasic } from "../../../components/modals/ModalBasic";
 import { ConfirmBasic } from "../../../components/modals/ConfirmBasic";
 import { HeaderPage } from "../Header";
+import { toast } from "react-toastify";
+import { AddMedicineToPharmacy } from "../../../components/forms/pharmacies/AddMedicineToPharmacy";
 
 export const PharmaciesTable = () => {
-  const { loading, pharmacies, getPharmacies, countPharmacies } = usePharmacy();
+  const {
+    loading,
+    pharmacies,
+    getPharmacies,
+    countPharmacies,
+    deletePharmacy,
+  } = usePharmacy();
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState(null);
   const [contentModal, setContentModal] = useState(null);
   const [refetch, setRefetch] = useState(false);
   const [confirmState, setConfirmState] = useState(false);
   const [titleConfirm, setTitleConfirm] = useState(null);
+  const [pharmaIdDelete, setPharmaIdDelete] = useState(null);
 
   const [activePage, setActivePage] = useState(1);
   const limit = 10;
   const pages = Math.ceil(countPharmacies / limit);
   const skip = limit * activePage - limit;
+
+  useEffect(() => {
+    getPharmacies(limit, skip);
+  }, [refetch, activePage]);
 
   const openCloseModal = () => setShowModal((prev) => !prev);
   const onRefetch = () => setRefetch(!refetch);
@@ -45,13 +58,31 @@ export const PharmaciesTable = () => {
   };
 
   const showConfirm = (data) => {
-    setTitleConfirm(`Esta seguro de eliminar la farmacia ${data?.name}?`);
+    setTitleConfirm(`Esta seguro de eliminar la farmacia '${data?.name}'?`);
+    setPharmaIdDelete(data?._id);
     setConfirmState(true);
   };
 
-  useEffect(() => {
-    getPharmacies(limit, skip);
-  }, [refetch, activePage]);
+  const onDeletePharmacy = async () => {
+    const deleted = await deletePharmacy(pharmaIdDelete);
+    if (deleted) {
+      toast.info("Farmacia eliminada");
+      setConfirmState(false);
+      onRefetch();
+    }
+  };
+
+  const onEditMedicines = async (data) => {
+    setTitleModal(`Actualizar informacion de medicamentos en '${data?.name}'`);
+    setContentModal(
+      <AddMedicineToPharmacy
+        onClose={openCloseModal}
+        onRefetch={onRefetch}
+        pharma={data}
+      />
+    );
+    openCloseModal();
+  };
 
   return (
     <div>
@@ -107,6 +138,7 @@ export const PharmaciesTable = () => {
                     pharma={pharma}
                     updatePharmacy={updatePharmacy}
                     showConfirm={showConfirm}
+                    onEditMedicines={onEditMedicines}
                   />
                 </Table.Row>
               ))}
@@ -144,17 +176,17 @@ export const PharmaciesTable = () => {
       <ConfirmBasic
         show={confirmState}
         onCancel={() => setConfirmState(false)}
-        onConfirm={() => console.log("hola")}
+        onConfirm={() => onDeletePharmacy()}
         title={titleConfirm}
       />
     </div>
   );
 };
 
-const Actions = ({ pharma, updatePharmacy, showConfirm }) => {
+const Actions = ({ pharma, updatePharmacy, showConfirm, onEditMedicines }) => {
   return (
     <Table.Cell textAlign="right">
-      <Button icon negative onClick={() => showConfirm(pharma)}>
+      <Button icon negative onClick={() => onEditMedicines(pharma)}>
         <Icon name="pencil" /> Medicamentos
       </Button>
       <Button icon onClick={() => updatePharmacy(pharma)}>

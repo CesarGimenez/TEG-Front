@@ -9,6 +9,7 @@ import {
   Label,
   Loader,
   Menu,
+  Message,
 } from "semantic-ui-react";
 import GoogleMapReact from "google-map-react";
 import { usePharmacy } from "../../hooks/usePharmacy";
@@ -111,9 +112,6 @@ export const Farmacies = () => {
             />
           </Menu>
           <Form className="form_consultation">
-            <Header as="h3">
-              Consulte farmacias segun 1 o mas medicamentos
-            </Header>
             <div className="form_filter">
               <Dropdown
                 placeholder="Medicamentos"
@@ -130,6 +128,15 @@ export const Farmacies = () => {
                 Consultar
               </Button>
             </div>
+            <div style={{ maxWidth: 800 }}>
+              <Message>
+                <p>
+                  Puedes realizar la consulta de uno o más medicamentos en las
+                  distintas farmacias donde se encuentre disponible, puedes
+                  seleccionar ver en lista o en un mapa.
+                </p>
+              </Message>
+            </div>
           </Form>
         </div>
         {loading ? (
@@ -137,10 +144,12 @@ export const Farmacies = () => {
             Cargando..
           </Loader>
         ) : modeList ? (
-          <PharmaciesList
-            pharmacies={pharmacies}
-            showLocationPharmacy={showLocationPharmacy}
-          />
+          <>
+            <PharmaciesList
+              pharmacies={pharmacies}
+              showLocationPharmacy={showLocationPharmacy}
+            />
+          </>
         ) : (
           <PharmaciesMap pharmacies={pharmacies} />
         )}

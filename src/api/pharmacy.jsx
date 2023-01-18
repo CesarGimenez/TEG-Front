@@ -93,3 +93,20 @@ export const updatePharmacyApi = async (token, id, data) => {
     throw error;
   }
 };
+
+export const deletePharmacyApi = async (token, id) => {
+  try {
+    const url = `${BASE_API}/pharmacy/${id}`;
+    const params = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};

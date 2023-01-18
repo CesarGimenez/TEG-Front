@@ -16,7 +16,7 @@ export const RequestUserHistory = ({ user, onValidate, onClose }) => {
   return (
     <>
       <span>
-        Para visualizar la historia medica del paciente, se requiere que el
+        Para visualizar la historia médica del paciente, se requiere que el
         mismo le otorgue una clave de acceso secreta
       </span>
       <Form>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Grid, Header, Label, Segment } from "semantic-ui-react";
+import { Grid, Header, Label, Message, Segment } from "semantic-ui-react";
 import { useCenter } from "../../hooks/useCenter";
 
 export const InfoContact = ({ doc }) => {
@@ -11,10 +11,13 @@ export const InfoContact = ({ doc }) => {
     <div>
       {!doc?.is_verified && (
         <div style={{ margin: 10, textAlign: "center" }}>
-          <Label color="red">
-            Manten precaucion a la hora de consultar un medico no verificado por
-            nuestros administradores
-          </Label>
+          <Message warning>
+            <Message.Header>Atención!</Message.Header>
+            <p>
+              Mantén precaución a la hora de consultar un médico no verificado
+              por nuestros administradores
+            </p>
+          </Message>
         </div>
       )}
       <Grid columns={2}>
@@ -24,7 +27,7 @@ export const InfoContact = ({ doc }) => {
             <span>
               {doc?.first_name} {doc.last_name}
             </span>
-            <Header as="h4">Numero de contacto:</Header>
+            <Header as="h4">Número de contacto:</Header>
             <span>{doc?.phone}</span>
             <Header as="h4">Correo:</Header>
             <span>{doc?.email}</span>
@@ -38,7 +41,7 @@ export const InfoContact = ({ doc }) => {
             })}
           </Segment>
           <Segment>
-            <Header as="h4">Lugares de atencion:</Header>
+            <Header as="h4">Lugares de atención:</Header>
             {centers?.map((c) => {
               return <Label>{c?.name}</Label>;
             })}

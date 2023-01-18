@@ -7,11 +7,12 @@ import { usePharmacy } from "../../../hooks/usePharmacy";
 export const AddMedicineToPharmacy = ({ onClose, onRefetch, pharma }) => {
   const { loading, getMedicines, medicines } = useMedicine();
   const { updatePharmacy } = usePharmacy();
-  const [newMedicines, setNewMedicines] = useState(null);
-  const pharmaMedicines = pharma?.medicines?.map((med) => med?._id);
-  const filterMedicines = medicines?.filter(
-    (med) => !pharmaMedicines?.includes(med._id)
+  const [pharmaMedicines, setPharmaMedicines] = useState(
+    pharma?.medicines?.map((m) => m._id)
   );
+  // const filterMedicines = medicines?.filter(
+  //   (med) => !pharmaMedicines?.includes(med._id)
+  // );
   useEffect(() => {
     getMedicines();
   }, []);
@@ -27,7 +28,6 @@ export const AddMedicineToPharmacy = ({ onClose, onRefetch, pharma }) => {
   };
 
   const addMedicinesToPharmacy = async () => {
-    pharmaMedicines.push(...newMedicines);
     await updatePharmacy(pharma._id, { medicines: pharmaMedicines });
     toast.success("Medicamento(s) agregado(s) con exito");
     onRefetch();
@@ -35,17 +35,18 @@ export const AddMedicineToPharmacy = ({ onClose, onRefetch, pharma }) => {
   };
 
   return (
-    <div>
+    <div style={{ maxHeight: 800 }}>
       <Form>
         <Dropdown
-          options={formatMedicines(filterMedicines)}
+          options={formatMedicines(medicines)}
           fluid
           selection
           search
           multiple
-          onChange={(e, { value }) => setNewMedicines(value)}
+          value={pharmaMedicines}
+          onChange={(e, { value }) => setPharmaMedicines(value)}
         />
-        {newMedicines && (
+        {pharmaMedicines && (
           <Button onClick={() => addMedicinesToPharmacy()}>
             Agregar medicamentos
           </Button>

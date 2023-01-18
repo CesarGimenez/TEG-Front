@@ -5,6 +5,7 @@ import {
   Form,
   Header,
   ItemGroup,
+  Message,
   Segment,
 } from "semantic-ui-react";
 import { useFormik } from "formik";
@@ -32,14 +33,17 @@ export const NewDiagnostic = () => {
   return (
     <>
       <Card fluid centered>
-        <Header as="h1">Realizar una nueva consulta medica</Header>
+        <Header as="h1">Realizar una nueva consulta médica</Header>
         <div className="form_content">
           <div style={{ width: 500 }}>
             <div className="title_form">
-              <Header as="h4" color="teal">
-                Puedes encontrar el paciente para generar la consulta mediante
-                su Nombre, Apellido o DNI
-              </Header>
+              <Message color="teal">
+                <Message.Header>Información</Message.Header>
+                <p>
+                  Puedes buscar un paciente mediante su Nombre, Apellido o DNI
+                  para procesar una consulta médica.
+                </p>
+              </Message>
             </div>
 
             <Form onSubmit={formik.handleSubmit}>
@@ -67,7 +71,7 @@ export const NewDiagnostic = () => {
                 className="input"
                 label="DNI"
                 name="dni"
-                placeholder="Numero de documento"
+                placeholder="Número de documento"
                 autoComplete="off"
                 value={formik.values?.dni}
                 onChange={formik.handleChange}
@@ -119,7 +123,7 @@ export const NewDiagnostic = () => {
                           {moment().diff(user?.birthdate, "years") || "(N/A)"}){" "}
                         </Header>
                         <span>
-                          <strong>Genero: </strong>
+                          <strong>Género: </strong>
                           {user.gender === "M" ? "Masculino" : "Femenino"}
                         </span>
                         <span>
@@ -127,7 +131,7 @@ export const NewDiagnostic = () => {
                           {user.dni}
                         </span>
                         <span>
-                          <strong>Telefono: </strong>
+                          <strong>Teléfono: </strong>
                           {user.phone}
                         </span>
                       </div>

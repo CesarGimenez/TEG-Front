@@ -7,19 +7,19 @@ export const PharmaciesList = ({ pharmacies, showLocationPharmacy }) => {
       {pharmacies?.map((pharmacy) => {
         return (
           <Card key={pharmacy?._id} className="pharmacy__card">
+            <Header as="h4">{pharmacy?.name}</Header>
             <div className="pharmacy__card2">
               <div className="pharmacy_basic">
-                <Header as="h4">{pharmacy?.name}</Header>
                 <Image
-                  src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                  src="https://w7.pngwing.com/pngs/651/1015/png-transparent-pharmacy-modafinil-generic-drug-health-care-pharmaceutical-drug-pharmacy-orange-people-logo-thumbnail.png"
                   size="tiny"
                   circular
                 />
               </div>
               <div className="pharmacy_info">
-                <p as="h4">Direccion: {pharmacy?.address}</p>
-                <p as="h4">Numero de telefono: {pharmacy?.phones}</p>
-                <p as="h4">Horario de atencion: {pharmacy?.hours}</p>
+                <p as="h4">Dirección: {pharmacy?.address}</p>
+                <p as="h4">Número de teléfono: {pharmacy?.phones}</p>
+                <p as="h4">Horario de atención: {pharmacy?.hours || "S/H"}</p>
               </div>
             </div>
             <Button
@@ -27,7 +27,7 @@ export const PharmaciesList = ({ pharmacies, showLocationPharmacy }) => {
               className="btn__location"
               circular
             >
-              Ver ubicacion
+              Ver ubicación{" "}
             </Button>
           </Card>
         );

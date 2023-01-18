@@ -6,15 +6,19 @@ import { HeaderPage } from "../Header";
 import { AddEditCenterForm } from "../../../components/forms/centers/AddEditCenterForm";
 import { ModalBasic } from "../../../components/modals/ModalBasic";
 import { ConfirmBasic } from "../../../components/modals/ConfirmBasic";
+import { toast } from "react-toastify";
+import { AddDoctorToCenterAdmin } from "../../../components/forms/centers/AddDoctorToCenterAdmin";
 
 export const CentersTable = () => {
-  const { loading, centers, getCenters, countCenters } = useCenter();
+  const { loading, centers, getCenters, countCenters, deleteCenter } =
+    useCenter();
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState(null);
   const [contentModal, setContentModal] = useState(null);
   const [refetch, setRefetch] = useState(false);
   const [confirmState, setConfirmState] = useState(false);
   const [titleConfirm, setTitleConfirm] = useState(null);
+  const [centerIdDelete, setCenterIdDelete] = useState(null);
 
   const [activePage, setActivePage] = useState(1);
   const limit = 10;
@@ -23,6 +27,10 @@ export const CentersTable = () => {
 
   const openCloseModal = () => setShowModal((prev) => !prev);
   const onRefetch = () => setRefetch(!refetch);
+
+  useEffect(() => {
+    getCenters(limit, skip);
+  }, [activePage, refetch]);
 
   const addCenter = () => {
     setTitleModal("Nuevo centro de salud");
@@ -46,12 +54,30 @@ export const CentersTable = () => {
 
   const showConfirm = (data) => {
     setTitleConfirm(`Esta seguro de eliminar el centro '${data?.name}'?`);
+    setCenterIdDelete(data?._id);
     setConfirmState(true);
   };
 
-  useEffect(() => {
-    getCenters(limit, skip);
-  }, [activePage, refetch]);
+  const onDeleteCenter = async () => {
+    const deleted = await deleteCenter(centerIdDelete);
+    if (deleted) {
+      toast.info("Centro eliminado");
+      setConfirmState(false);
+      onRefetch();
+    }
+  };
+
+  const onEditDoctorsCenter = (data) => {
+    setTitleModal("Actualizar medicos del centro de salud");
+    setContentModal(
+      <AddDoctorToCenterAdmin
+        onClose={openCloseModal}
+        onRefetch={onRefetch}
+        center={data}
+      />
+    );
+    openCloseModal();
+  };
 
   return (
     <div>
@@ -107,6 +133,7 @@ export const CentersTable = () => {
                     center={center}
                     updateCenter={updateCenter}
                     showConfirm={showConfirm}
+                    onEditDoctorsCenter={onEditDoctorsCenter}
                   />
                 </Table.Row>
               ))}
@@ -144,17 +171,22 @@ export const CentersTable = () => {
       <ConfirmBasic
         show={confirmState}
         onCancel={() => setConfirmState(false)}
-        onConfirm={() => console.log("hola")}
+        onConfirm={() => onDeleteCenter()}
         title={titleConfirm}
       />
     </div>
   );
 };
 
-const Actions = ({ center, updateCenter, showConfirm }) => {
+const Actions = ({
+  center,
+  updateCenter,
+  showConfirm,
+  onEditDoctorsCenter,
+}) => {
   return (
     <Table.Cell textAlign="center">
-      <Button icon negative onClick={() => showConfirm(center)}>
+      <Button icon negative onClick={() => onEditDoctorsCenter(center)}>
         <Icon name="pencil" /> Medicos
       </Button>
       <Button icon onClick={() => updateCenter(center)}>

@@ -2,7 +2,7 @@
     .ui.menu {
         width: 250px !important;
         overflow: hidden;
-        padding-top: 5em;
+        padding-top: 8em;
         z-index: 99 !important;
 
         i.icon {
@@ -20,7 +20,7 @@
     .content {
         position: absolute;
         right: 0;
-        top: 50px;
+        top: 70px;
         padding: 50px;
         width: calc(100% - 250px);
         height: 100%;

@@ -89,21 +89,21 @@ export const AdminCenter = () => {
               btnClick={() => updateCenterInfo(currentCenter)}
             />{" "}
             <Label size="big">Nombre: {currentCenter?.name}</Label>
-            <Label size="big">Direccion: {currentCenter?.address}</Label>
-            <Label size="big">Telefono: {currentCenter?.phones}</Label>
+            <Label size="big">Dirección: {currentCenter?.address}</Label>
+            <Label size="big">Teléfono: {currentCenter?.phones}</Label>
             <Label size="big">
-              Accesibilidad: {currentCenter?.is_public ? "Publica" : "Privada"}
+              Accesibilidad: {currentCenter?.is_public ? "Pública" : "Privada"}
             </Label>
             <Button
               onClick={() => addDoctors(currentCenter)}
               style={{ width: 300 }}
             >
-              Agregar Medico
+              Agregar Médico
             </Button>
             {currentCenter?.doctors?.length > 0 ? (
-              <Header as={"h3"}>Medicos registrados</Header>
+              <Header as={"h3"}>Médicos registrados</Header>
             ) : (
-              <Header as={"h3"}>Aun no existen medicos registrados</Header>
+              <Header as={"h3"}>Aun no existen médicos registrados</Header>
             )}
             <Table>
               <Table.Header>
@@ -111,9 +111,9 @@ export const AdminCenter = () => {
                   <Table.HeaderCell>Nombre</Table.HeaderCell>
                   <Table.HeaderCell>DNI</Table.HeaderCell>
                   <Table.HeaderCell>Edad</Table.HeaderCell>
-                  <Table.HeaderCell>Medico verificado</Table.HeaderCell>
+                  <Table.HeaderCell>Médico verificado</Table.HeaderCell>
                   <Table.HeaderCell textAlign="right">
-                    Informacion
+                    Información
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>

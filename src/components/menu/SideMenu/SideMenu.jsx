@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, Menu } from "semantic-ui-react";
+import { Icon, Image, Menu } from "semantic-ui-react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { UserProfile } from "../../../pages/userprofile/UserProfile";
@@ -13,6 +13,7 @@ import { NewDiagnostic } from "../../../pages/DoctorPages/NewDiagnostic/NewDiagn
 import { UserHistory } from "../../../pages/DoctorPages/userHistory/userHistory";
 import { AdminCenter } from "../../../pages/AdminCenter/AdminCenter";
 import { AdminPharmacy } from "../../../pages/AdminPharmacy/AdminPharmacy";
+import { MyTreatment } from "../../../pages/Treattments/MyTreatment";
 
 export const SideMenu = () => {
   const { auth } = useAuth();
@@ -24,24 +25,28 @@ export const SideMenu = () => {
           <Icon name="home" /> Mis datos
         </Menu.Item>
 
-        {/* <Menu.Item as={Link} to={"/history"} active={pathname === "/history"}>
-          <Icon name="history" /> Mi historial Medico
-        </Menu.Item> */}
+        <Menu.Item
+          as={Link}
+          to={"/treattment"}
+          active={pathname === "/treattment"}
+        >
+          <Icon name="user" /> Mis tratamientos
+        </Menu.Item>
 
         <Menu.Item
           as={Link}
           to={"/pharmacies"}
           active={pathname === "/pharmacies"}
         >
-          <Icon name="heartbeat" /> Informacion Farmaceutica
+          <Icon name="heartbeat" /> Información Farmacéutica
         </Menu.Item>
 
         <Menu.Item as={Link} to={"/medical"} active={pathname === "/medical"}>
-          <Icon name="user md" /> Atencion medica
+          <Icon name="user md" /> Atención médica
         </Menu.Item>
         {auth?.user?.is_Admin && (
           <Menu.Item as={Link} to={"/admin"} active={pathname === "/admin"}>
-            <Icon name="user" /> Administracion del sistema
+            <Icon name="user" /> Administración del sistema
           </Menu.Item>
         )}
         {auth?.user?.pharmacyadmin && (
@@ -50,7 +55,7 @@ export const SideMenu = () => {
             to={"/pharmadmin"}
             active={pathname === "/pharmadmin"}
           >
-            <Icon name="medkit" /> Administracion Farmaceutica
+            <Icon name="medkit" /> Administración Farmacéutica
           </Menu.Item>
         )}
         {auth?.user?.centeradmin && (
@@ -59,7 +64,7 @@ export const SideMenu = () => {
             to={"/centeradmin"}
             active={pathname === "/centeradmin"}
           >
-            <Icon name="hospital" /> Administracion Sanitaria
+            <Icon name="hospital" /> Administración Sanitaria
           </Menu.Item>
         )}
         {(auth?.user?.role_id === "62d896e5c3885dab609328d4" ||
@@ -82,6 +87,13 @@ export const SideMenu = () => {
             <Icon name="hospital" /> Generar consulta
           </Menu.Item>
         )}
+        <div>
+          <Image
+            src={
+              "https://res.cloudinary.com/dl57f2zr5/image/upload/v1674012359/LOGO_MEDICPASS-10_w5g36q.png"
+            }
+          />
+        </div>
       </Menu>
       <div className="content">
         <Routes>
@@ -95,8 +107,8 @@ export const SideMenu = () => {
           <Route path="user-history/:id" element={<UserHistory />} />
           <Route path="centeradmin" element={<AdminCenter />} />
           <Route path="pharmadmin" element={<AdminPharmacy />} />
-          {/* <Route path="" element={<Orders />} />
-            <Route path="tables/:id" element={<TableDetailsAdmin />} />
+          <Route path="treattment" element={<MyTreatment />} />
+          {/* <Route path="tables/:id" element={<TableDetailsAdmin />} />
             <Route path="*" element={<Error404 />} /> */}
         </Routes>
       </div>

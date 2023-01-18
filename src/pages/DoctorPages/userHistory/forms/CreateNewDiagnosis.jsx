@@ -43,7 +43,7 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
         const data = { ...formValue, patient: patient?._id, doctor: user?._id };
         const res = await createDiagnosis(data);
 
-        if (res) toast.success("Diagnostico generado");
+        if (res) toast.success("Diagnóstico generado");
         onRefetch();
         onClose();
 
@@ -74,9 +74,9 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
         <Grid>
           <Grid.Row>
             <Grid.Column>
-              <Label size="large">Descripcion general</Label>
+              <Label size="large">Descripción general</Label>
               <TextArea
-                placeholder="Descripcion general"
+                placeholder="Descripción general"
                 style={{ minHeight: 100 }}
                 name="description"
                 value={formik.values.description}
@@ -87,9 +87,9 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Label size="large">Tipo de diagnostico</Label>
+              <Label size="large">Tipo de diagnóstico</Label>
               <Dropdown
-                Label="Tipo de diagnostico"
+                Label="Tipo de diagnóstico"
                 selection
                 search
                 fluid
@@ -118,9 +118,9 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Label size="large">Sintomas</Label>
+              <Label size="large">Síntomas</Label>
               <TextArea
-                placeholder="Sintomas"
+                placeholder="Síntomas"
                 style={{ minHeight: 100 }}
                 name="symptoms"
                 value={formik.values.symptoms}
@@ -131,9 +131,10 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Label size="large">Recomendacion medica</Label>
+              <Label size="large">Recomendación médica</Label>
               <TextArea
-                placeholder="Recomendacion medica"
+                placeholder="Recomendación médica
+                "
                 style={{ minHeight: 100 }}
                 name="medic_recomendation"
                 value={formik.values.medic_recomendation}
@@ -144,9 +145,9 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Label size="large">Recomendacion farmaceutica</Label>
+              <Label size="large">Recomendación farmacéutica</Label>
               <TextArea
-                placeholder="Recomendacion farmaceutica"
+                placeholder="Recomendación farmacéutica"
                 style={{ minHeight: 100 }}
                 name="pharmaceutic_recomendation"
                 value={formik.values.pharmaceutic_recomendation}

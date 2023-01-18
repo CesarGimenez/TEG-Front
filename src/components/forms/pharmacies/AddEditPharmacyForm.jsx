@@ -52,20 +52,20 @@ export const AddEditPharmacyForm = ({ closeModal, onRefetch, pharma }) => {
         error={formik.touched.name && formik.errors.name}
       />
       <Form.Input
-        name="phones"
-        placeholder="Telefono"
-        autoComplete="off"
-        value={formik.values.phones}
-        onChange={formik.handleChange}
-        error={formik.touched.phones && formik.errors.phones}
-      />
-      <Form.Input
         name="address"
         placeholder="Direccion"
         autoComplete="off"
         value={formik.values.address}
         onChange={formik.handleChange}
         error={formik.touched.address && formik.errors.address}
+      />
+      <Form.Input
+        name="phones"
+        placeholder="Telefono"
+        autoComplete="off"
+        value={formik.values.phones}
+        onChange={formik.handleChange}
+        error={formik.touched.phones && formik.errors.phones}
       />
       <div className="add-edit-form__Active">
         <Checkbox
@@ -123,7 +123,7 @@ const initialValues = (data) => {
 
 const newValidationSchema = () => {
   return {
-    name: Yup.string().required(true).max(20, "Es muy largo"),
+    name: Yup.string().required(true),
     phones: Yup.string().required(true).max(20, "Es muy largo"),
     address: Yup.string().required(true).max(40, "Es muy largo"),
     is_active: Yup.bool().required(true),
@@ -132,7 +132,7 @@ const newValidationSchema = () => {
 
 const updateValidationSchema = () => {
   return {
-    name: Yup.string().required(true).max(20, "Es muy largo"),
+    name: Yup.string().required(true),
     phones: Yup.string().max(20, "Es muy largo"),
     address: Yup.string().max(40, "Es muy largo"),
     is_active: Yup.bool().required(true),

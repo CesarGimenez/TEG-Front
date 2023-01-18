@@ -16,20 +16,24 @@ import { HeaderPage } from "../Header";
 import { EditMedicProfileUser } from "../../../components/forms/users/EditMedicProfileUser";
 import { EditCenterUser } from "../../../components/forms/users/EditCenterUser";
 import { EditPharmacyUser } from "../../../components/forms/users/EditPharmacyUser";
+import { toast } from "react-toastify";
 
 export const UserTable = () => {
-  const { loading, users, getUsers, countUsers } = useUser();
+  const { loading, users, getUsers, countUsers, deleteUser } = useUser();
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState(null);
   const [contentModal, setContentModal] = useState(null);
   const [refetch, setRefetch] = useState(false);
   const [confirmState, setConfirmState] = useState(false);
   const [titleConfirm, setTitleConfirm] = useState(null);
+  const [userIdDelete, setUserIdDelete] = useState(null);
 
   const [activePage, setActivePage] = useState(1);
   const limit = 10;
   const pages = Math.ceil(countUsers / limit);
   const skip = limit * activePage - limit;
+
+  console.log(countUsers);
 
   const openCloseModal = () => setShowModal((prev) => !prev);
   const onRefetch = () => setRefetch(!refetch);
@@ -98,7 +102,17 @@ export const UserTable = () => {
 
   const showConfirm = (data) => {
     setTitleConfirm(`Esta seguro de eliminar al usuario ${data?.email}?`);
+    setUserIdDelete(data?._id);
     setConfirmState(true);
+  };
+
+  const onDeleteUser = async () => {
+    const deleted = await deleteUser(userIdDelete);
+    if (deleted) {
+      toast.info("Usuario eliminado");
+      setConfirmState(false);
+      onRefetch();
+    }
   };
 
   return (
@@ -201,7 +215,7 @@ export const UserTable = () => {
       <ConfirmBasic
         show={confirmState}
         onCancel={() => setConfirmState(false)}
-        onConfirm={() => console.log("hola")}
+        onConfirm={() => onDeleteUser()}
         title={titleConfirm}
       />
     </div>
@@ -228,7 +242,7 @@ const Actions = ({
       </Button>
       {user.role_id?.name === "Medico" && (
         <Button icon negative onClick={() => updateMedicProfile(user)}>
-          <Icon name="pencil" /> Perfil Medico
+          <Icon name="pencil" /> Verificacion Medica
         </Button>
       )}
 

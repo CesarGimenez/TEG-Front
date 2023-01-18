@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import moment from "moment";
 import { Button, Form, Grid, Image } from "semantic-ui-react";
 import { useCloudinary } from "../../hooks/useCloudinary";
 import { toast } from "react-toastify";
@@ -21,9 +22,7 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (formValue) => {
-      console.log(formValue);
       const updated = await updateUser(user?._id, formValue);
-      console.log(updated);
       if (updated) {
         onRefetch();
         openCloseModal();
@@ -33,6 +32,7 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
       }
     },
   });
+
   const uploadImage = async () => {
     const result = await uploadImageToCloudinary(formik.values.image);
     const { secure_url } = result;
@@ -106,6 +106,7 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 name="first_name"
                 value={formik.values.first_name}
                 onChange={formik.handleChange}
+                error={formik.errors.first_name}
               />
               <Form.Input
                 fluid
@@ -117,6 +118,7 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 name="last_name"
                 value={formik.values.last_name}
                 onChange={formik.handleChange}
+                error={formik.errors.last_name}
               />
               <Form.Input
                 fluid
@@ -125,10 +127,12 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 type="date"
                 icon="user"
                 iconPosition="left"
+                value={formik.values.birthdate}
                 onChange={async (e) => {
                   const newDate = new Date(e.target.value).toISOString();
                   await formik.setFieldValue("birthdate", newDate);
                 }}
+                error={formik.errors.birthdate}
               />
               <Form.Dropdown
                 label="Genero"
@@ -136,7 +140,7 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 fluid
                 icon="sex"
                 iconPosition="left"
-                placeholder="Selecciona una opcion"
+                placeholder="Selecciona una opción"
                 selection
                 options={optionsGender}
                 name="gender"
@@ -144,6 +148,7 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 onChange={(e, { value }) =>
                   formik.setFieldValue("gender", value)
                 }
+                error={formik.errors.gender}
               />
             </Grid.Column>
             <Grid.Column>
@@ -157,6 +162,19 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 name="blood_group"
                 value={formik.values.blood_group}
                 onChange={formik.handleChange}
+                error={formik.errors.blood_group}
+              />
+              <Form.Input
+                fluid
+                label="PIN de historia"
+                labelPosition="left"
+                icon="user"
+                iconPosition="left"
+                placeholder="******"
+                name="secret_word"
+                value={formik.values.secret_word}
+                onChange={formik.handleChange}
+                error={formik.errors.secret_word}
               />
               <Form.Input
                 fluid
@@ -164,10 +182,11 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 labelPosition="left"
                 icon="user"
                 iconPosition="left"
-                placeholder="V-11.111.111"
+                placeholder="11.111.111"
                 name="dni"
                 value={formik.values.dni}
                 onChange={formik.handleChange}
+                error={formik.errors.dni}
               />
               <Form.Input
                 fluid
@@ -179,10 +198,11 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 name="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
+                error={formik.errors.email}
               />
               <Form.Input
                 fluid
-                label="Telefono personal"
+                label="Teléfono personal"
                 labelPosition="left"
                 icon="user"
                 iconPosition="left"
@@ -190,10 +210,11 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 name="phone"
                 value={formik.values.phone}
                 onChange={formik.handleChange}
+                error={formik.errors.phone}
               />
               <Form.Input
                 fluid
-                label="Telefono Emergencia"
+                label="Teléfono Emergencia"
                 labelPosition="left"
                 icon="user"
                 iconPosition="left"
@@ -201,6 +222,7 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 name="parent_phone"
                 value={formik.values.parent_phone}
                 onChange={formik.handleChange}
+                error={formik.errors.parent_phone}
               />
               <Form.Input
                 fluid
@@ -208,10 +230,11 @@ export const EditUserProfile = ({ user, onRefetch, openCloseModal }) => {
                 labelPosition="left"
                 icon="user"
                 iconPosition="left"
-                placeholder="Direccion exacta"
+                placeholder="Dirección exacta"
                 name="address"
                 value={formik.values.address}
                 onChange={formik.handleChange}
+                error={formik.errors.address}
               />
             </Grid.Column>
           </Grid.Row>
@@ -237,9 +260,56 @@ const initialValues = (user) => {
     phone: user?.phone || "",
     gender: user?.gender || "",
     address: user?.address || "",
+    secret_word: user?.secret_word || "",
   };
 };
 
 const validationSchema = () => {
-  return {};
+  return {
+    first_name: Yup.string()
+      .trim()
+      .matches(
+        /^[aA-zZ\s]+$/,
+        "No se admiten numeros y/o caracteres para el nombre"
+      )
+      .required(),
+    last_name: Yup.string()
+      .trim()
+      .matches(
+        /^[aA-zZ\s]+$/,
+        "No se admiten numeros y/o caracteres para el apellido"
+      )
+      .required(),
+    birthdate: Yup.string().test(
+      Yup.string,
+      "No es una fecha valida",
+      (value) => {
+        const now = new moment();
+        const birthdate = new moment(value);
+        const diff = now.diff(birthdate, "years");
+        if (diff <= 0 || diff >= 100) {
+          return false;
+        }
+        return true;
+      }
+    ),
+    blood_group: Yup.string(),
+    dni: Yup.string()
+      .trim()
+      .matches(/^[0-9]{7,}?$/i, "Formato invalido para DNI, Ejemplo: 1111111")
+      .required(true),
+    email: Yup.string().trim().email("No es un email valido").required(true),
+    image: Yup.string(),
+    parent_phone: Yup.string(),
+    phone: Yup.string()
+      .trim()
+      .required(true)
+      .matches(
+        /^[0-9]{7,}?$/i,
+        "Formato invalido para telefono. Ejemplo: 04125554433"
+      ),
+    gender: Yup.string().required(),
+    address: Yup.string().required(true).trim(),
+    secret_word: Yup.string().required().trim(),
+  };
 };

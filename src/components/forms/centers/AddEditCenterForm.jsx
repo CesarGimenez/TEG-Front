@@ -27,14 +27,25 @@ export const AddEditCenterForm = ({ closeModal, onRefetch, center }) => {
     onSubmit: async (formValue) => {
       try {
         if (center) {
-          await updateCenter(center?._id, formValue);
-          toast.success("Centro de salud actualizado con exito");
+          const updated = await updateCenter(center?._id, formValue);
+          if (updated) {
+            toast.success("Centro de salud actualizado con exito");
+            onRefetch();
+            closeModal();
+          } else {
+            toast.error("Ha ocurrido un error, revise los datos ingresados");
+          }
         } else {
-          await createCenter(formValue);
-          toast.success("Centro de salud creado con exito");
+          const created = await createCenter(formValue);
+          console.log(created);
+          if (created) {
+            toast.success("Centro de salud creado con exito");
+            onRefetch();
+            closeModal();
+          } else {
+            toast.error("Ha ocurrido un error, revise los datos ingresados");
+          }
         }
-        onRefetch();
-        closeModal();
       } catch (error) {
         console.error(error);
       }
@@ -135,20 +146,20 @@ const initialValues = (data) => {
 
 const newValidationSchema = () => {
   return {
-    name: Yup.string().required(true).max(40, "Es muy largo"),
+    name: Yup.string().required(true),
     is_active: Yup.bool().required(true),
     is_public: Yup.bool().required(true),
-    address: Yup.string().required(true).max(40, "Es muy largo"),
+    address: Yup.string().required(true),
     phones: Yup.string().required(true).max(20, "Es muy largo"),
   };
 };
 
 const updateValidationSchema = () => {
   return {
-    name: Yup.string().required(true).max(40, "Es muy largo"),
+    name: Yup.string().required(true),
     is_active: Yup.bool().required(true),
     is_public: Yup.bool().required(true),
-    address: Yup.string().required(true).max(40, "Es muy largo"),
+    address: Yup.string().required(true),
     phones: Yup.string().required(true).max(20, "Es muy largo"),
   };
 };

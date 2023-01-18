@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   createCenterApi,
+  deleteCenterApi,
   getCentersApi,
   getCentersByDoctorApi,
   getOneCenterApi,
@@ -59,8 +60,9 @@ export const useCenter = () => {
   const createCenter = async (data) => {
     try {
       setLoading(true);
-      await createCenterApi(auth?.token, data);
+      const center = await createCenterApi(auth?.token, data);
       setLoading(false);
+      return center;
     } catch (error) {
       setLoading(false);
       setError(error);
@@ -70,11 +72,24 @@ export const useCenter = () => {
   const updateCenter = async (id, data) => {
     try {
       setLoading(true);
-      await updateCenterApi(auth?.token, id, data);
+      const updated = await updateCenterApi(auth?.token, id, data);
       setLoading(false);
+      return updated;
     } catch (error) {
       setLoading(false);
       setError(error);
+    }
+  };
+
+  const deleteCenter = async (id) => {
+    try {
+      setLoading(true);
+      const response = await deleteCenterApi(auth?.token, id);
+      setLoading(false);
+      return response;
+    } catch (error) {
+      setError(error);
+      throw error;
     }
   };
 
@@ -89,5 +104,6 @@ export const useCenter = () => {
     getOneCenter,
     createCenter,
     updateCenter,
+    deleteCenter,
   };
 };

@@ -49,7 +49,7 @@ export const UserHistory = () => {
   };
 
   const addNewDiagnosis = () => {
-    setTitleModal("Creacion de nuevo diagnostico");
+    setTitleModal("Creación de nuevo diagnóstico");
     setContentModal(
       <CreateNewDiagnosis
         patient={userDetail}
@@ -73,7 +73,7 @@ export const UserHistory = () => {
   };
 
   const showDetailDiagnosys = (diagnosys) => {
-    setTitleModal("Detalle de diagnostico medico");
+    setTitleModal("Detalle de diagnóstico médico");
     setContentModal(<DetailDiagnosys diagnosys={diagnosys} />);
     openCloseModal();
   };
@@ -89,8 +89,8 @@ export const UserHistory = () => {
         <Loader>... Cargando</Loader>
       ) : (
         <Card fluid centered>
-          <Header as="h2">Informacion de paciente</Header>
-          <Header as="h3">Datos basicos</Header>
+          <Header as="h2">Información de paciente</Header>
+          <Header as="h3">Datos básicos</Header>
           <div>
             <div>
               <Form>
@@ -115,7 +115,7 @@ export const UserHistory = () => {
                     </Grid.Column>
                     <Grid.Column>
                       <Form.Input
-                        label="Genero"
+                        label="Género"
                         value={`${
                           userDetail?.gender === "M" ? "Masculino" : "Femenino"
                         }`}
@@ -127,25 +127,25 @@ export const UserHistory = () => {
                   <Grid.Row>
                     <Grid.Column>
                       <Form.Input
-                        label="Telefono"
+                        label="Teléfono"
                         value={`${userDetail?.phone}`}
                       />
                     </Grid.Column>
                     <Grid.Column>
                       <Form.Input
-                        label="Telefono de familiar"
+                        label="Teléfono de familiar"
                         value={`${userDetail?.parent_phone}`}
                       />
                     </Grid.Column>
                     <Grid.Column>
                       <Form.Input
-                        label="Correo electronico"
+                        label="Correo electrónico"
                         value={`${userDetail?.email}`}
                       />
                     </Grid.Column>
                     <Grid.Column>
                       <Form.Input
-                        label="Direccion"
+                        label="Dirección"
                         value={`${userDetail?.address}`}
                       />
                     </Grid.Column>
@@ -169,14 +169,14 @@ export const UserHistory = () => {
               <>
                 {!validate && (
                   <Button onClick={() => requestPermissionMedicalRecord()}>
-                    Ver historia medica
+                    Ver historia médica
                   </Button>
                 )}
               </>
             ) : (
               <Label centered size="large">
-                Este paciente aun no posee historia medica, solicite ayuda con
-                administracion
+                Este paciente aún no posee historia médica, solicite ayuda con
+                administración
               </Label>
             )}
           </div>

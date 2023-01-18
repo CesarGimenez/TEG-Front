@@ -95,7 +95,7 @@ export const SignUp = ({ handleRegister }) => {
     onSubmit: async (formValue) => {
       try {
         formValue.birthdate = new Date(formValue.birthdate).toISOString();
-        formValue.phone = `${codeNumber}-${formValue.phone}`;
+        formValue.phone = `${codeNumber}${formValue.phone}`;
         formValue.is_doctor = checkDoctor ? true : false;
         const res = await createUser(formValue);
         if (res?.error) {

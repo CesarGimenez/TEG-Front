@@ -121,11 +121,11 @@ export const EditMedicProfileUser = ({ user, onRefetch, openCloseModal }) => {
               />
               <Form.Input
                 fluid
-                label="Codigo de colegio de Medicos"
+                label="Código de colegio de Médicos"
                 labelPosition="left"
                 icon="user"
                 iconPosition="left"
-                placeholder="Codigo de Colegio de Medicos"
+                placeholder="Código de colegio de Médicos"
                 name="college_medic_id"
                 value={formik.values.college_medic_id}
                 onChange={formik.handleChange}
@@ -136,21 +136,21 @@ export const EditMedicProfileUser = ({ user, onRefetch, openCloseModal }) => {
                 fluid
                 icon="area"
                 iconPosition="left"
-                placeholder="Selecciona una opcion"
+                placeholder="Selecciona una opción"
                 selection
                 options={optionsAreas(areas)}
                 name="areas"
                 multiple
-                value={formik.values.areas.map((a) => a._id)}
+                value={formik.values.areas}
                 onChange={(e, { value }) =>
-                  formik.setFieldValue("gender", value)
+                  formik.setFieldValue("areas", value)
                 }
               />
             </Grid.Column>
           </Grid.Row>
         </Grid>
         <Button fluid type="submit">
-          Editar perfil Medico
+          Editar perfil Médico
         </Button>
       </Form>
     </div>
@@ -162,7 +162,7 @@ const initialValues = (user) => {
     mpps_id: user?.mpps_id || "",
     college_medic_id: user?.college_medic_id || "",
     doctor_signature: user?.doctor_signature || "",
-    areas: user?.areas || [],
+    areas: user?.areas.map((a) => a._id) || [],
   };
 };
 

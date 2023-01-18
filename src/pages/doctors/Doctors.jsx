@@ -74,14 +74,14 @@ export const Doctors = () => {
   return (
     <div>
       <Card fluid centered>
-        <Header as="h1">Atencion medica de especialistas</Header>
+        <Header as="h1">Atención médica de especialistas</Header>
         <AttentionSVG className="svg_component animate__animated animate__fadeInRight" />
         <div className="layout_menu_pharmacy">
           <Form>
-            <Header as="h3">Consulte los especialistas en su area</Header>
+            <Header as="h3">Consulte los especialistas en su área</Header>
             <div className="form_filter">
               <Dropdown
-                placeholder="Area de especialidad"
+                placeholder="Área de especialidad"
                 multiple
                 selection
                 search

@@ -9,6 +9,8 @@ import {
   getUserByQueryApi,
   updatePasswordApi,
   getUsersByAreaApi,
+  getUserFamilyApi,
+  deleteUserApi,
 } from "../api/user";
 import { useAuth } from "./useAuth";
 
@@ -19,6 +21,7 @@ export const useUser = () => {
   const [userDetail, setUserDetails] = useState(null);
   const [userByDni, setUserBydni] = useState(null);
   const [usersQuery, setUsersQuery] = useState(null);
+  const [family, setFamily] = useState(null);
   const [countUsers, setCountUsers] = useState(null);
 
   const { auth } = useAuth();
@@ -67,6 +70,18 @@ export const useUser = () => {
       setLoading(true);
       const response = await getUserByQueryApi(auth?.token, query);
       setUsersQuery(response);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  const getUserFamily = async (id) => {
+    try {
+      setLoading(true);
+      const response = await getUserFamilyApi(auth?.token, id);
+      setFamily(response);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -129,6 +144,18 @@ export const useUser = () => {
     }
   };
 
+  const deleteUser = async (id) => {
+    try {
+      setLoading(true);
+      const response = await deleteUserApi(auth?.token, id);
+      setLoading(false);
+      return response;
+    } catch (error) {
+      setError(error);
+      throw error;
+    }
+  };
+
   return {
     loading,
     error,
@@ -137,14 +164,17 @@ export const useUser = () => {
     userByDni,
     countUsers,
     usersQuery,
+    family,
     getUsers,
     getUser,
     getUserByDNI,
     getUsersByQuery,
     getUsersDoctors,
+    getUserFamily,
     getUsersByArea,
     updateUser,
     createUser,
     updatePassword,
+    deleteUser,
   };
 };

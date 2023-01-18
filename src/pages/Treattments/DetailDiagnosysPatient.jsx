@@ -2,7 +2,7 @@ import React from "react";
 import { Header, Image, Label, Segment } from "semantic-ui-react";
 import moment from "moment";
 
-export const DetailDiagnosys = ({ diagnosys }) => {
+export const DetailDiagnosysPatient = ({ diagnosys }) => {
   return (
     <div style={{ maxHeight: 800, overflowY: "auto" }}>
       <Segment>
@@ -17,14 +17,6 @@ export const DetailDiagnosys = ({ diagnosys }) => {
       <Segment>
         <Header as="h4">Fecha y hora de creación:</Header>
         <span>{moment(diagnosys?.createdAt).format("DD/MM/yyyy hh:mm")}</span>
-      </Segment>
-      <Segment>
-        <Header as="h4">Descripción general:</Header>
-        <span>{diagnosys?.description}</span>
-      </Segment>
-      <Segment>
-        <Header as="h4">Síntomas presentados:</Header>
-        <span>{diagnosys?.symptoms}</span>
       </Segment>
       <Segment>
         <Header as="h4">Recomendación Médica:</Header>

@@ -24,7 +24,7 @@ export const LoginForm = ({ handleRegister }) => {
       try {
         const res = await LoginAPI(formValue);
         const { user } = res;
-        if (res?.statusCode === 403) {
+        if (res?.statusCode === 403 || !user?.data?.active) {
           toast.error("Credenciales invalidas");
           return;
         }
