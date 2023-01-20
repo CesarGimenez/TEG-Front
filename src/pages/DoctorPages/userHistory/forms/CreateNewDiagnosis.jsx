@@ -34,8 +34,18 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
     });
   };
 
+  const formatAreas = (areas) => {
+    return areas?.map((a) => {
+      return {
+        key: a._id,
+        text: a.name,
+        value: a._id,
+      };
+    });
+  };
+
   const formik = useFormik({
-    initialValues: initialValues(),
+    initialValues: initialValues(user),
     validationSchema: Yup.object(updateValidationSchema()),
     validateOnChange: false,
     onSubmit: async (formValue) => {
@@ -72,6 +82,19 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
     <div style={{ maxHeight: 800, overflowY: "auto", overflowX: "hidden" }}>
       <Form onSubmit={formik.handleSubmit}>
         <Grid>
+          <Grid.Row>
+            <Grid.Column>
+              <Label size="large">Motivo de consulta</Label>
+              <TextArea
+                placeholder="Motivo de consulta"
+                style={{ minHeight: 100 }}
+                name="reason"
+                value={formik.values.reason}
+                onChange={formik.handleChange}
+                error={formik.errors.reason}
+              />
+            </Grid.Column>
+          </Grid.Row>
           <Grid.Row>
             <Grid.Column>
               <Label size="large">Descripción general</Label>
@@ -118,6 +141,20 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
+              <Label size="large">Especialidad</Label>
+              <Dropdown
+                selection
+                search
+                fluid
+                name="area"
+                options={formatAreas(user?.areas)}
+                onChange={(e, { value }) => formik.setFieldValue("area", value)}
+                error={formik.errors.healthcenter}
+              />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
               <Label size="large">Síntomas</Label>
               <TextArea
                 placeholder="Síntomas"
@@ -126,6 +163,19 @@ export const CreateNewDiagnosis = ({ patient, onClose, onRefetch }) => {
                 value={formik.values.symptoms}
                 onChange={formik.handleChange}
                 error={formik.errors.symptoms}
+              />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Label size="large">Examen fisico</Label>
+              <TextArea
+                placeholder="Examen fisico"
+                style={{ minHeight: 100 }}
+                name="physical_exam"
+                value={formik.values.physical_exam}
+                onChange={formik.handleChange}
+                error={formik.errors.physical_exam}
               />
             </Grid.Column>
           </Grid.Row>
@@ -189,6 +239,9 @@ const initialValues = () => {
     medic_recomendation: "",
     treatment: "",
     healthcenter: "",
+    area: "",
+    physical_exam: "",
+    reason: "",
   };
 };
 
@@ -201,5 +254,8 @@ const updateValidationSchema = () => {
     medic_recomendation: Yup.string().required(),
     treatment: Yup.string().required(),
     healthcenter: Yup.string().required(),
+    area: Yup.string().required(),
+    physical_exam: Yup.string(),
+    reason: Yup.string().required(),
   };
 };

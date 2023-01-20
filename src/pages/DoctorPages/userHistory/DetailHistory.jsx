@@ -6,6 +6,7 @@ import {
   Grid,
   Header,
   Label,
+  Message,
   Table,
   TextArea,
 } from "semantic-ui-react";
@@ -53,7 +54,6 @@ export const DetailHistory = ({
     getDiagnosisByPatient(patient?._id);
     getDocsByPatient(patient?._id);
   }, [refetch]);
-
   return (
     <div>
       <div style={{ marginTop: 20, marginBottom: 30 }}>
@@ -210,6 +210,7 @@ export const DetailHistory = ({
         <Table.Row>
           <Table.HeaderCell>Fecha</Table.HeaderCell>
           <Table.HeaderCell>Atendido por</Table.HeaderCell>
+          <Table.HeaderCell>Especialidad</Table.HeaderCell>
           <Table.HeaderCell>Lugar de atención</Table.HeaderCell>
           <Table.HeaderCell>Tipo de diagnóstico</Table.HeaderCell>
           <Table.HeaderCell>Información detallada</Table.HeaderCell>
@@ -222,10 +223,13 @@ export const DetailHistory = ({
                   {moment(d?.createdAt).format("DD/MM/yyyy hh:mm")}
                 </Table.Cell>
                 <Table.Cell style={{ maxWidth: 300 }}>
-                  {d?.doctor?.gender === "M" ? "Dr." : "Dra"}
+                  {d?.doctor?.gender === "M" ? "Dr. " : "Dra. "}
                   {d?.doctor?.first_name} {d?.doctor?.last_name}
                 </Table.Cell>
-                <Table.Cell>{d?.healthcenter?.name}</Table.Cell>
+                <Table.Cell>{d?.area?.name || "Sin detalles"}</Table.Cell>
+                <Table.Cell>
+                  {d?.healthcenter?.name || "Sin detalles"}
+                </Table.Cell>
                 <Table.Cell>{d?.type}</Table.Cell>
 
                 <Table.Cell>
@@ -239,6 +243,15 @@ export const DetailHistory = ({
           </Table.Body>
         )}
       </Table>
+      {(!diagnosis || diagnosis?.length < 1) && (
+        <Message warning>
+          <Message.Header>Sin consultas previas </Message.Header>
+          <p>
+            Este paciente aun no presenta consultas previas realizadas por otros
+            especialistas.
+          </p>
+        </Message>
+      )}
       <div style={{ marginTop: 30, marginBottom: 30 }}>
         <HeaderPage
           titlePage="Documentos o examenes cargados a este paciente"
@@ -280,6 +293,15 @@ export const DetailHistory = ({
           </Table.Body>
         )}
       </Table>
+      {(!docs || docs?.length < 1) && (
+        <Message warning>
+          <Message.Header>Sin documentos cargados </Message.Header>
+          <p>
+            Este paciente aun no posee ningun tipo de documento o archivo
+            referente a examenes cargado a su historial.
+          </p>
+        </Message>
+      )}
     </div>
   );
 };

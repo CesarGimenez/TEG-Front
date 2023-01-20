@@ -108,6 +108,15 @@ export const UserProfile = () => {
               </p>
             </Message>
           )}
+        {userDetail && (!userDetail?.image || userDetail?.image == "") && (
+          <Message warning>
+            <Message.Header>Coloca una foto de perfil! </Message.Header>
+            <p>
+              Puedes subir una foto para que seas reconocible ante otros
+              usuarios (Editar perfil).
+            </p>
+          </Message>
+        )}
         <div className="user_header">
           <Header as="h1" color="blue">
             Hola de nuevo,{" "}
@@ -152,7 +161,7 @@ export const UserProfile = () => {
           <Image
             src={
               userDetail?.image ||
-              "https://react.semantic-ui.com/images/wireframe/square-image.png"
+              "https://res.cloudinary.com/dl57f2zr5/image/upload/v1674012358/LOGO_MEDICPASS-06_yhzacg.png"
             }
             size="medium"
             circular

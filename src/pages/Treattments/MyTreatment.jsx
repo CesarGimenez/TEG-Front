@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Header, Loader, Table } from "semantic-ui-react";
+import {
+  Button,
+  Card,
+  Header,
+  Loader,
+  Message,
+  Table,
+} from "semantic-ui-react";
 import { map } from "lodash";
 import moment from "moment";
 import { useAuth } from "../../hooks/useAuth";
@@ -51,7 +58,8 @@ export const MyTreatment = () => {
                     {moment(d?.createdAt).format("DD/MM/yyyy hh:mm")}
                   </Table.Cell>
                   <Table.Cell style={{ maxWidth: 300 }}>
-                    {d?.doctor?.first_name} {d?.doctor?.last_name}
+                    {d?.doctor?.first_name} {d?.doctor?.last_name} (
+                    {d?.area?.name})
                   </Table.Cell>
                   <Table.Cell style={{ maxWidth: 300 }}>
                     {d?.patient?.first_name} {d?.patient?.last_name}
@@ -75,6 +83,15 @@ export const MyTreatment = () => {
               ))}
             </Table.Body>
           </Table>
+        )}
+        {(!diagnosis || diagnosis?.length < 1) && (
+          <Message warning>
+            <Message.Header>Sin atenciones cargadas </Message.Header>
+            <p>
+              No presentas atenciones generadas por ningun especialista de salud
+              todavia.
+            </p>
+          </Message>
         )}
       </Card>
       <ModalBasic

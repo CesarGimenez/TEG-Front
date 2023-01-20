@@ -18,6 +18,7 @@ import { MyTreatment } from "../../../pages/Treattments/MyTreatment";
 export const SideMenu = () => {
   const { auth } = useAuth();
   const { pathname } = useLocation();
+
   return (
     <div className="side_menu">
       <Menu fixed="left" borderless className="side" vertical>

@@ -19,12 +19,20 @@ export const DetailDiagnosys = ({ diagnosys }) => {
         <span>{moment(diagnosys?.createdAt).format("DD/MM/yyyy hh:mm")}</span>
       </Segment>
       <Segment>
+        <Header as="h4">Motivo de consulta:</Header>
+        <span>{diagnosys?.reason || "Sin detalles"}</span>
+      </Segment>
+      <Segment>
         <Header as="h4">Descripción general:</Header>
         <span>{diagnosys?.description}</span>
       </Segment>
       <Segment>
         <Header as="h4">Síntomas presentados:</Header>
         <span>{diagnosys?.symptoms}</span>
+      </Segment>
+      <Segment>
+        <Header as="h4">Examen Fisico:</Header>
+        <span>{diagnosys?.physical_exam || "Sin detalles"}</span>
       </Segment>
       <Segment>
         <Header as="h4">Recomendación Médica:</Header>

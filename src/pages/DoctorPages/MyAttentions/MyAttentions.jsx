@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Header, Loader, Table } from "semantic-ui-react";
+import {
+  Button,
+  Card,
+  Header,
+  Loader,
+  Message,
+  Table,
+} from "semantic-ui-react";
 import { map } from "lodash";
 import moment from "moment";
 import { useAuth } from "../../../hooks/useAuth";
@@ -72,6 +79,12 @@ export const MyAttentions = () => {
               ))}
             </Table.Body>
           </Table>
+        )}
+        {(!diagnosis || diagnosis?.length < 1) && (
+          <Message warning>
+            <Message.Header>Sin atenciones cargadas </Message.Header>
+            <p>No presentas atenciones generadas a ningun paciente todavia.</p>
+          </Message>
         )}
       </Card>
       <ModalBasic
