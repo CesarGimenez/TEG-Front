@@ -1,8 +1,11 @@
 import { BASE_API } from "../util/constants";
 
-export const getDiagnosysByPatientApi = async (token, id) => {
+export const getDiagnosysByPatientApi = async (token, id, limit) => {
   try {
     let url = `${BASE_API}/diagnosis/patient/${id}`;
+    if (limit) {
+      url = `${BASE_API}/diagnosis/patient/${id}?limit=${limit}`;
+    }
     const params = {
       method: "GET",
       headers: {

@@ -6,6 +6,7 @@ import {
   Icon,
   Image,
   Label,
+  Loader,
   Message,
   Table,
 } from "semantic-ui-react";

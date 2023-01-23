@@ -79,15 +79,16 @@ export const SideMenu = () => {
           </Menu.Item>
         )}
         {(auth?.user?.role_id?._id === "62d896e5c3885dab609328d4" ||
-          auth?.user?.is_doctor) && (
-          <Menu.Item
-            as={Link}
-            to={"/nuevo-diagnostico"}
-            active={pathname === "/nuevo-diagnostico"}
-          >
-            <Icon name="hospital" /> Generar consulta
-          </Menu.Item>
-        )}
+          auth?.user?.is_doctor) &&
+          auth?.user?.is_verified && (
+            <Menu.Item
+              as={Link}
+              to={"/nuevo-diagnostico"}
+              active={pathname === "/nuevo-diagnostico"}
+            >
+              <Icon name="hospital" /> Generar consulta
+            </Menu.Item>
+          )}
         <div>
           <Image
             src={

@@ -14,10 +14,16 @@ import moment from "moment";
 import "./NewDiagnostic.scss";
 import { useUser } from "../../../hooks/useUser";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
 
 export const NewDiagnostic = () => {
   const navigate = useNavigate();
+  const { auth } = useAuth();
+
+  if (!auth?.user?.is_doctor || !auth.user?.is_verified) {
+    return navigate("/");
+  }
   const { loading, usersQuery, getUsersByQuery } = useUser();
 
   useEffect(() => {}, [usersQuery]);

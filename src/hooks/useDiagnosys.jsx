@@ -13,10 +13,10 @@ export const useDiagnosis = () => {
 
   const { auth } = useAuth();
 
-  const getDiagnosisByPatient = async (id) => {
+  const getDiagnosisByPatient = async (id, limit) => {
     try {
       setLoading(true);
-      const response = await getDiagnosysByPatientApi(auth?.token, id);
+      const response = await getDiagnosysByPatientApi(auth?.token, id, limit);
       setDiagnosis(response);
       setLoading(false);
     } catch (error) {

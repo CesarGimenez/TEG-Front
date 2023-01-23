@@ -23,7 +23,7 @@ export const MyTreatment = () => {
   const [contentModal, setContentModal] = useState(false);
 
   useEffect(() => {
-    getDiagnosisByPatient(auth?.user?._id);
+    getDiagnosisByPatient(auth?.user?._id, 3);
   }, []);
 
   const openCloseModal = () => setShowModal((prev) => !prev);
