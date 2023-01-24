@@ -145,8 +145,11 @@ export const NewDiagnostic = () => {
                         <Button
                           primary
                           onClick={() => navigate(`/user-history/${user?._id}`)}
+                          disabled={user?._id == auth?.user?._id ? true : false}
                         >
-                          Crear consulta
+                          {user?._id == auth?.user?._id
+                            ? "Accion no permitida"
+                            : "Crear consulta"}
                         </Button>
                       </div>
                     </div>
