@@ -57,7 +57,8 @@ export const DetailDiagnosys = ({ diagnosys }) => {
         >
           <Image
             src={diagnosys?.doctor?.doctor_signature || null}
-            size="large"
+            size="medium"
+            style={{ maxHeight: 200, maxWidth: 200 }}
           />
           ___________________________________________________
           <Header as="h4">Firma del especialista médico</Header>

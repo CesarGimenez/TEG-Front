@@ -23,7 +23,7 @@ export const TopMenu = () => {
           <Header color="blue" size="medium">
             Sesión de{" "}
             {user?.is_doctor
-              ? "Medico"
+              ? "Médico"
               : user?.is_admin
               ? "Administrador"
               : "Paciente"}
